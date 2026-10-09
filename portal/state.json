@@ -1,0 +1,1771 @@
+{
+ "server_time": 1791521011.3313544,
+ "paper_trading": true,
+ "crypto": {
+  "available": true,
+  "running": true,
+  "equity": 10000.0,
+  "cash": 10000.0,
+  "starting_balance": 10000.0,
+  "total_pnl": 0.0,
+  "day_pnl": 0.0,
+  "day_open_equity": 10000.0,
+  "realized_pnl": 0.0,
+  "fees_paid": 0.0,
+  "peak_equity": 10000.0,
+  "drawdown": 0.0,
+  "risk_state": "safe",
+  "open_positions": 0,
+  "halted": false,
+  "halt_reason": "",
+  "kill_switch_armed": false,
+  "risk_limits": {
+   "max_drawdown_pct": 0.15,
+   "max_daily_loss_pct": 0.03,
+   "max_position_pct": 0.1,
+   "max_gross_exposure_pct": 0.4
+  },
+  "updated": "2026-10-09T04:43:28.110284+00:00",
+  "bots": [
+   {
+    "sym": "BTC-USD",
+    "name": "BTC",
+    "mid": 82278.595,
+    "spread_bps": 0.0,
+    "imbalance": 0.773,
+    "last_decision": {
+     "ts": 1791520988.625,
+     "action": "escalate",
+     "direction": "neutral",
+     "confidence": 0.5,
+     "regime": "mean_reverting",
+     "setup_quality": 0,
+     "risk_state": "safe",
+     "reason": "confidence 0.500 < 0.6"
+    },
+    "position": {
+     "qty": 0.0,
+     "avg_px": 0.0,
+     "notional": 0.0,
+     "unrealized": 0.0
+    },
+    "realized": 0.0,
+    "fees": 0.0,
+    "pnl": 0.0,
+    "fills": 0,
+    "wins": 0,
+    "losses": 0,
+    "misses": 0,
+    "escalations": 1,
+    "decisions": 101,
+    "last_fill": null
+   },
+   {
+    "sym": "ETH-USD",
+    "name": "ETH",
+    "mid": 2489.195,
+    "spread_bps": 0.04,
+    "imbalance": -0.299,
+    "last_decision": {
+     "ts": 1791520988.625,
+     "action": "no_trade",
+     "direction": "short",
+     "confidence": 0.7268,
+     "regime": "trending",
+     "setup_quality": 2,
+     "risk_state": "safe",
+     "reason": "short not allowed on spot paper venue"
+    },
+    "position": {
+     "qty": 0.0,
+     "avg_px": 0.0,
+     "notional": 0.0,
+     "unrealized": 0.0
+    },
+    "realized": 0.0,
+    "fees": 0.0,
+    "pnl": 0.0,
+    "fills": 0,
+    "wins": 0,
+    "losses": 0,
+    "misses": 0,
+    "escalations": 0,
+    "decisions": 101,
+    "last_fill": null
+   },
+   {
+    "sym": "HYPE-USD",
+    "name": "HYPE",
+    "mid": 85.105,
+    "spread_bps": 1.18,
+    "imbalance": 0.068,
+    "last_decision": {
+     "ts": 1791520988.625,
+     "action": "escalate",
+     "direction": "neutral",
+     "confidence": 0.5,
+     "regime": "mean_reverting",
+     "setup_quality": 0,
+     "risk_state": "safe",
+     "reason": "confidence 0.500 < 0.6"
+    },
+    "position": {
+     "qty": 0.0,
+     "avg_px": 0.0,
+     "notional": 0.0,
+     "unrealized": 0.0
+    },
+    "realized": 0.0,
+    "fees": 0.0,
+    "pnl": 0.0,
+    "fills": 0,
+    "wins": 0,
+    "losses": 0,
+    "misses": 0,
+    "escalations": 1,
+    "decisions": 101,
+    "last_fill": null
+   },
+   {
+    "sym": "PUMP-USD",
+    "name": "PUMP",
+    "mid": 0.005533,
+    "spread_bps": 3.61,
+    "imbalance": 0.46,
+    "last_decision": {
+     "ts": 1791520988.625,
+     "action": "escalate",
+     "direction": "neutral",
+     "confidence": 0.5,
+     "regime": "mean_reverting",
+     "setup_quality": 0,
+     "risk_state": "safe",
+     "reason": "confidence 0.500 < 0.6"
+    },
+    "position": {
+     "qty": 0.0,
+     "avg_px": 0.0,
+     "notional": 0.0,
+     "unrealized": 0.0
+    },
+    "realized": 0.0,
+    "fees": 0.0,
+    "pnl": 0.0,
+    "fills": 0,
+    "wins": 0,
+    "losses": 0,
+    "misses": 0,
+    "escalations": 1,
+    "decisions": 101,
+    "last_fill": null
+   },
+   {
+    "sym": "AERO-USD",
+    "name": "AERO",
+    "mid": 0.840625,
+    "spread_bps": 7.73,
+    "imbalance": -0.664,
+    "last_decision": {
+     "ts": 1791520988.625,
+     "action": "escalate",
+     "direction": "neutral",
+     "confidence": 0.5,
+     "regime": "mean_reverting",
+     "setup_quality": 0,
+     "risk_state": "safe",
+     "reason": "confidence 0.500 < 0.6"
+    },
+    "position": {
+     "qty": 0.0,
+     "avg_px": 0.0,
+     "notional": 0.0,
+     "unrealized": 0.0
+    },
+    "realized": 0.0,
+    "fees": 0.0,
+    "pnl": 0.0,
+    "fills": 0,
+    "wins": 0,
+    "losses": 0,
+    "misses": 0,
+    "escalations": 1,
+    "decisions": 101,
+    "last_fill": null
+   },
+   {
+    "sym": "UNI-USD",
+    "name": "UNI",
+    "mid": 7.33985,
+    "spread_bps": 5.59,
+    "imbalance": 0.809,
+    "last_decision": {
+     "ts": 1791520988.625,
+     "action": "no_trade",
+     "direction": "short",
+     "confidence": 0.7865,
+     "regime": "trending",
+     "setup_quality": 2,
+     "risk_state": "safe",
+     "reason": "short not allowed on spot paper venue"
+    },
+    "position": {
+     "qty": 0.0,
+     "avg_px": 0.0,
+     "notional": 0.0,
+     "unrealized": 0.0
+    },
+    "realized": 0.0,
+    "fees": 0.0,
+    "pnl": 0.0,
+    "fills": 0,
+    "wins": 0,
+    "losses": 0,
+    "misses": 0,
+    "escalations": 0,
+    "decisions": 101,
+    "last_fill": null
+   },
+   {
+    "sym": "LINK-USD",
+    "name": "LINK",
+    "mid": 12.8395,
+    "spread_bps": 2.34,
+    "imbalance": -0.419,
+    "last_decision": {
+     "ts": 1791520988.625,
+     "action": "escalate",
+     "direction": "neutral",
+     "confidence": 0.5,
+     "regime": "mean_reverting",
+     "setup_quality": 0,
+     "risk_state": "safe",
+     "reason": "confidence 0.500 < 0.6"
+    },
+    "position": {
+     "qty": 0.0,
+     "avg_px": 0.0,
+     "notional": 0.0,
+     "unrealized": 0.0
+    },
+    "realized": 0.0,
+    "fees": 0.0,
+    "pnl": 0.0,
+    "fills": 0,
+    "wins": 0,
+    "losses": 0,
+    "misses": 0,
+    "escalations": 1,
+    "decisions": 101,
+    "last_fill": null
+   },
+   {
+    "sym": "RAY-USD",
+    "name": "RAY",
+    "mid": 2.4357,
+    "spread_bps": 15.6,
+    "imbalance": 0.081,
+    "last_decision": {
+     "ts": 1791520988.625,
+     "action": "escalate",
+     "direction": "neutral",
+     "confidence": 0.5,
+     "regime": "mean_reverting",
+     "setup_quality": 0,
+     "risk_state": "safe",
+     "reason": "confidence 0.500 < 0.6"
+    },
+    "position": {
+     "qty": 0.0,
+     "avg_px": 0.0,
+     "notional": 0.0,
+     "unrealized": 0.0
+    },
+    "realized": 0.0,
+    "fees": 0.0,
+    "pnl": 0.0,
+    "fills": 0,
+    "wins": 0,
+    "losses": 0,
+    "misses": 0,
+    "escalations": 1,
+    "decisions": 101,
+    "last_fill": null
+   }
+  ],
+  "events": [
+   {
+    "ts": 1791514393.017,
+    "event": "start",
+    "note": "PAPER TRADING ONLY - public data, simulated fills, no keys",
+    "asset": "crypto"
+   },
+   {
+    "ts": 1791514408.368,
+    "event": "escalation",
+    "sym": "BTC-USD",
+    "reason": "confidence 0.500 < 0.6",
+    "note": "no new entries; flattened if held; queued for deep review",
+    "asset": "crypto"
+   },
+   {
+    "ts": 1791514408.368,
+    "event": "escalation",
+    "sym": "HYPE-USD",
+    "reason": "confidence 0.500 < 0.6",
+    "note": "no new entries; flattened if held; queued for deep review",
+    "asset": "crypto"
+   },
+   {
+    "ts": 1791514408.368,
+    "event": "escalation",
+    "sym": "PUMP-USD",
+    "reason": "confidence 0.500 < 0.6",
+    "note": "no new entries; flattened if held; queued for deep review",
+    "asset": "crypto"
+   },
+   {
+    "ts": 1791514408.368,
+    "event": "escalation",
+    "sym": "AERO-USD",
+    "reason": "confidence 0.500 < 0.6",
+    "note": "no new entries; flattened if held; queued for deep review",
+    "asset": "crypto"
+   },
+   {
+    "ts": 1791514408.368,
+    "event": "escalation",
+    "sym": "LINK-USD",
+    "reason": "confidence 0.500 < 0.6",
+    "note": "no new entries; flattened if held; queued for deep review",
+    "asset": "crypto"
+   },
+   {
+    "ts": 1791514408.368,
+    "event": "escalation",
+    "sym": "RAY-USD",
+    "reason": "confidence 0.500 < 0.6",
+    "note": "no new entries; flattened if held; queued for deep review",
+    "asset": "crypto"
+   }
+  ],
+  "equity_series": [
+   [
+    1791514408.368,
+    10000.0
+   ],
+   [
+    1791514478.117,
+    10000.0
+   ],
+   [
+    1791514548.378,
+    10000.0
+   ],
+   [
+    1791514608.505,
+    10000.0
+   ],
+   [
+    1791514677.943,
+    10000.0
+   ],
+   [
+    1791514748.41,
+    10000.0
+   ],
+   [
+    1791514818.043,
+    10000.0
+   ],
+   [
+    1791514878.209,
+    10000.0
+   ],
+   [
+    1791514938.695,
+    10000.0
+   ],
+   [
+    1791515011.511,
+    10000.0
+   ],
+   [
+    1791515078.095,
+    10000.0
+   ],
+   [
+    1791515148.205,
+    10000.0
+   ],
+   [
+    1791515218.107,
+    10000.0
+   ],
+   [
+    1791515288.105,
+    10000.0
+   ],
+   [
+    1791515348.431,
+    10000.0
+   ],
+   [
+    1791515418.332,
+    10000.0
+   ],
+   [
+    1791515488.398,
+    10000.0
+   ],
+   [
+    1791515548.563,
+    10000.0
+   ],
+   [
+    1791515618.88,
+    10000.0
+   ],
+   [
+    1791515687.933,
+    10000.0
+   ],
+   [
+    1791515748.205,
+    10000.0
+   ],
+   [
+    1791515818.347,
+    10000.0
+   ],
+   [
+    1791515878.497,
+    10000.0
+   ],
+   [
+    1791515948.044,
+    10000.0
+   ],
+   [
+    1791516008.54,
+    10000.0
+   ],
+   [
+    1791516078.045,
+    10000.0
+   ],
+   [
+    1791516138.223,
+    10000.0
+   ],
+   [
+    1791516198.705,
+    10000.0
+   ],
+   [
+    1791516268.505,
+    10000.0
+   ],
+   [
+    1791516338.076,
+    10000.0
+   ],
+   [
+    1791516398.379,
+    10000.0
+   ],
+   [
+    1791516467.963,
+    10000.0
+   ],
+   [
+    1791516528.044,
+    10000.0
+   ],
+   [
+    1791516598.074,
+    10000.0
+   ],
+   [
+    1791516658.177,
+    10000.0
+   ],
+   [
+    1791516728.256,
+    10000.0
+   ],
+   [
+    1791516798.146,
+    10000.0
+   ],
+   [
+    1791516868.137,
+    10000.0
+   ],
+   [
+    1791516928.231,
+    10000.0
+   ],
+   [
+    1791516988.846,
+    10000.0
+   ],
+   [
+    1791517058.334,
+    10000.0
+   ],
+   [
+    1791517118.379,
+    10000.0
+   ],
+   [
+    1791517188.279,
+    10000.0
+   ],
+   [
+    1791517258.188,
+    10000.0
+   ],
+   [
+    1791517318.644,
+    10000.0
+   ],
+   [
+    1791517388.051,
+    10000.0
+   ],
+   [
+    1791517449.121,
+    10000.0
+   ],
+   [
+    1791517518.01,
+    10000.0
+   ],
+   [
+    1791517588.088,
+    10000.0
+   ],
+   [
+    1791517658.344,
+    10000.0
+   ],
+   [
+    1791517728.159,
+    10000.0
+   ],
+   [
+    1791517788.257,
+    10000.0
+   ],
+   [
+    1791517858.349,
+    10000.0
+   ],
+   [
+    1791517918.514,
+    10000.0
+   ],
+   [
+    1791517987.873,
+    10000.0
+   ],
+   [
+    1791518048.707,
+    10000.0
+   ],
+   [
+    1791518117.88,
+    10000.0
+   ],
+   [
+    1791518178.632,
+    10000.0
+   ],
+   [
+    1791518248.5,
+    10000.0
+   ],
+   [
+    1791518318.093,
+    10000.0
+   ],
+   [
+    1791518381.887,
+    10000.0
+   ],
+   [
+    1791518448.281,
+    10000.0
+   ],
+   [
+    1791518508.82,
+    10000.0
+   ],
+   [
+    1791518578.463,
+    10000.0
+   ],
+   [
+    1791518648.067,
+    10000.0
+   ],
+   [
+    1791518708.229,
+    10000.0
+   ],
+   [
+    1791518778.201,
+    10000.0
+   ],
+   [
+    1791518848.069,
+    10000.0
+   ],
+   [
+    1791518908.079,
+    10000.0
+   ],
+   [
+    1791518969.042,
+    10000.0
+   ],
+   [
+    1791519038.285,
+    10000.0
+   ],
+   [
+    1791519108.057,
+    10000.0
+   ],
+   [
+    1791519168.407,
+    10000.0
+   ],
+   [
+    1791519238.015,
+    10000.0
+   ],
+   [
+    1791519298.197,
+    10000.0
+   ],
+   [
+    1791519368.196,
+    10000.0
+   ],
+   [
+    1791519437.706,
+    10000.0
+   ],
+   [
+    1791519498.181,
+    10000.0
+   ],
+   [
+    1791519568.292,
+    10000.0
+   ],
+   [
+    1791519637.749,
+    10000.0
+   ],
+   [
+    1791519698.008,
+    10000.0
+   ],
+   [
+    1791519758.041,
+    10000.0
+   ],
+   [
+    1791519828.127,
+    10000.0
+   ],
+   [
+    1791519888.13,
+    10000.0
+   ],
+   [
+    1791519958.149,
+    10000.0
+   ],
+   [
+    1791520027.672,
+    10000.0
+   ],
+   [
+    1791520097.711,
+    10000.0
+   ],
+   [
+    1791520158.067,
+    10000.0
+   ],
+   [
+    1791520220.575,
+    10000.0
+   ],
+   [
+    1791520287.694,
+    10000.0
+   ],
+   [
+    1791520347.944,
+    10000.0
+   ],
+   [
+    1791520408.007,
+    10000.0
+   ],
+   [
+    1791520478.396,
+    10000.0
+   ],
+   [
+    1791520547.995,
+    10000.0
+   ],
+   [
+    1791520608.07,
+    10000.0
+   ],
+   [
+    1791520677.822,
+    10000.0
+   ],
+   [
+    1791520747.74,
+    10000.0
+   ],
+   [
+    1791520807.825,
+    10000.0
+   ],
+   [
+    1791520867.94,
+    10000.0
+   ],
+   [
+    1791520928.11,
+    10000.0
+   ],
+   [
+    1791520988.625,
+    10000.0
+   ]
+  ]
+ },
+ "fx": {
+  "available": true,
+  "running": true,
+  "equity": 10000.0,
+  "cash": 10000.0,
+  "starting_balance": 10000.0,
+  "total_pnl": 0.0,
+  "day_pnl": 0.0,
+  "realized_pnl": 0.0,
+  "spread_paid_usd": 0.0,
+  "financing_usd": 0.0,
+  "fees_paid": 0.0,
+  "gross_usd": 0.0,
+  "leverage": 0.0,
+  "peak_equity": 10000.0,
+  "drawdown": 0.0,
+  "risk_state": "safe",
+  "open_positions": 0,
+  "market_open": true,
+  "market_hours_open": true,
+  "market_next_change": 1791579600.0,
+  "market_event": {
+   "event": "market_open",
+   "ts": 1791516551.652
+  },
+  "halted": false,
+  "halt_reason": "",
+  "kill_files_armed": [],
+  "updated": "2026-10-09T04:43:12.687155+00:00",
+  "bots": [
+   {
+    "sym": "USD/JPY",
+    "name": "USD/JPY",
+    "mid": 158.093994140625,
+    "spread_bps": 1.66,
+    "last_decision": {
+     "ts": 1791520962.83,
+     "action": "escalate",
+     "direction": "neutral",
+     "confidence": 0.5,
+     "regime": "mean_reverting",
+     "setup_quality": 0,
+     "risk_state": "safe",
+     "reason": "confidence 0.500 < 0.6",
+     "entry_block": null
+    },
+    "position": {
+     "qty": 0.0,
+     "avg_px": 0.0,
+     "unrealized": 0.0
+    },
+    "realized": 0.0,
+    "financing": 0.0,
+    "spread_cost": 0.0,
+    "pnl": 0.0,
+    "fills": 0,
+    "wins": 0,
+    "losses": 0,
+    "misses": 0,
+    "escalations": 1,
+    "decisions": 58,
+    "last_fill": null,
+    "last_block": null,
+    "blocks": 0,
+    "selection_reason": [
+     "passes all"
+    ]
+   },
+   {
+    "sym": "EUR/JPY",
+    "name": "EUR/JPY",
+    "mid": 177.49600219726562,
+    "spread_bps": 1.89,
+    "last_decision": {
+     "ts": 1791520962.83,
+     "action": "escalate",
+     "direction": "neutral",
+     "confidence": 0.5,
+     "regime": "mean_reverting",
+     "setup_quality": 0,
+     "risk_state": "safe",
+     "reason": "confidence 0.500 < 0.6",
+     "entry_block": null
+    },
+    "position": {
+     "qty": 0.0,
+     "avg_px": 0.0,
+     "unrealized": 0.0
+    },
+    "realized": 0.0,
+    "financing": 0.0,
+    "spread_cost": 0.0,
+    "pnl": 0.0,
+    "fills": 0,
+    "wins": 0,
+    "losses": 0,
+    "misses": 0,
+    "escalations": 1,
+    "decisions": 58,
+    "last_fill": null,
+    "last_block": null,
+    "blocks": 0,
+    "selection_reason": [
+     "passes all"
+    ]
+   },
+   {
+    "sym": "EUR/USD",
+    "name": "EUR/USD",
+    "mid": 1.12296462059021,
+    "spread_bps": 2.28,
+    "last_decision": {
+     "ts": 1791520962.83,
+     "action": "escalate",
+     "direction": "neutral",
+     "confidence": 0.5,
+     "regime": "mean_reverting",
+     "setup_quality": 0,
+     "risk_state": "safe",
+     "reason": "confidence 0.500 < 0.6",
+     "entry_block": null
+    },
+    "position": {
+     "qty": 0.0,
+     "avg_px": 0.0,
+     "unrealized": 0.0
+    },
+    "realized": 0.0,
+    "financing": 0.0,
+    "spread_cost": 0.0,
+    "pnl": 0.0,
+    "fills": 0,
+    "wins": 0,
+    "losses": 0,
+    "misses": 0,
+    "escalations": 1,
+    "decisions": 58,
+    "last_fill": null,
+    "last_block": null,
+    "blocks": 0,
+    "selection_reason": [
+     "passes all"
+    ]
+   },
+   {
+    "sym": "AUD/USD",
+    "name": "AUD/USD",
+    "mid": 0.6978854537010193,
+    "spread_bps": 3.73,
+    "last_decision": {
+     "ts": 1791520962.83,
+     "action": "escalate",
+     "direction": "neutral",
+     "confidence": 0.5,
+     "regime": "mean_reverting",
+     "setup_quality": 0,
+     "risk_state": "safe",
+     "reason": "confidence 0.500 < 0.6",
+     "entry_block": null
+    },
+    "position": {
+     "qty": 0.0,
+     "avg_px": 0.0,
+     "unrealized": 0.0
+    },
+    "realized": 0.0,
+    "financing": 0.0,
+    "spread_cost": 0.0,
+    "pnl": 0.0,
+    "fills": 0,
+    "wins": 0,
+    "losses": 0,
+    "misses": 0,
+    "escalations": 1,
+    "decisions": 58,
+    "last_fill": null,
+    "last_block": null,
+    "blocks": 0,
+    "selection_reason": [
+     "passes all"
+    ]
+   },
+   {
+    "sym": "USD/CHF",
+    "name": "USD/CHF",
+    "mid": 0.8303300142288208,
+    "spread_bps": 4.03,
+    "last_decision": {
+     "ts": 1791520962.83,
+     "action": "escalate",
+     "direction": "neutral",
+     "confidence": 0.5,
+     "regime": "mean_reverting",
+     "setup_quality": 0,
+     "risk_state": "safe",
+     "reason": "confidence 0.500 < 0.6",
+     "entry_block": null
+    },
+    "position": {
+     "qty": 0.0,
+     "avg_px": 0.0,
+     "unrealized": 0.0
+    },
+    "realized": 0.0,
+    "financing": 0.0,
+    "spread_cost": 0.0,
+    "pnl": 0.0,
+    "fills": 0,
+    "wins": 0,
+    "losses": 0,
+    "misses": 0,
+    "escalations": 1,
+    "decisions": 58,
+    "last_fill": null,
+    "last_block": null,
+    "blocks": 0,
+    "selection_reason": [
+     "passes all"
+    ]
+   },
+   {
+    "sym": "GBP/USD",
+    "name": "GBP/USD",
+    "mid": 1.324082374572754,
+    "spread_bps": 2.57,
+    "last_decision": {
+     "ts": 1791520962.83,
+     "action": "escalate",
+     "direction": "neutral",
+     "confidence": 0.5,
+     "regime": "mean_reverting",
+     "setup_quality": 0,
+     "risk_state": "safe",
+     "reason": "confidence 0.500 < 0.6",
+     "entry_block": null
+    },
+    "position": {
+     "qty": 0.0,
+     "avg_px": 0.0,
+     "unrealized": 0.0
+    },
+    "realized": 0.0,
+    "financing": 0.0,
+    "spread_cost": 0.0,
+    "pnl": 0.0,
+    "fills": 0,
+    "wins": 0,
+    "losses": 0,
+    "misses": 0,
+    "escalations": 1,
+    "decisions": 58,
+    "last_fill": null,
+    "last_block": null,
+    "blocks": 0,
+    "selection_reason": [
+     "passes all"
+    ]
+   },
+   {
+    "sym": "CHF/JPY",
+    "name": "CHF/JPY",
+    "mid": 190.4010009765625,
+    "spread_bps": 5.69,
+    "last_decision": {
+     "ts": 1791520962.83,
+     "action": "escalate",
+     "direction": "neutral",
+     "confidence": 0.5,
+     "regime": "mean_reverting",
+     "setup_quality": 0,
+     "risk_state": "safe",
+     "reason": "confidence 0.500 < 0.6",
+     "entry_block": null
+    },
+    "position": {
+     "qty": 0.0,
+     "avg_px": 0.0,
+     "unrealized": 0.0
+    },
+    "realized": 0.0,
+    "financing": 0.0,
+    "spread_cost": 0.0,
+    "pnl": 0.0,
+    "fills": 0,
+    "wins": 0,
+    "losses": 0,
+    "misses": 0,
+    "escalations": 1,
+    "decisions": 58,
+    "last_fill": null,
+    "last_block": null,
+    "blocks": 0,
+    "selection_reason": [
+     "passes all"
+    ]
+   },
+   {
+    "sym": "NZD/JPY",
+    "name": "NZD/JPY",
+    "mid": 88.83899688720703,
+    "spread_bps": 7.28,
+    "last_decision": {
+     "ts": 1791520962.83,
+     "action": "escalate",
+     "direction": "neutral",
+     "confidence": 0.5,
+     "regime": "mean_reverting",
+     "setup_quality": 0,
+     "risk_state": "safe",
+     "reason": "confidence 0.500 < 0.6",
+     "entry_block": null
+    },
+    "position": {
+     "qty": 0.0,
+     "avg_px": 0.0,
+     "unrealized": 0.0
+    },
+    "realized": 0.0,
+    "financing": 0.0,
+    "spread_cost": 0.0,
+    "pnl": 0.0,
+    "fills": 0,
+    "wins": 0,
+    "losses": 0,
+    "misses": 0,
+    "escalations": 1,
+    "decisions": 58,
+    "last_fill": null,
+    "last_block": null,
+    "blocks": 0,
+    "selection_reason": [
+     "passes all"
+    ]
+   }
+  ],
+  "events": [
+   {
+    "ts": 1791516549.522,
+    "event": "start",
+    "note": "PAPER TRADING ONLY - public FX data, simulated fills, no keys",
+    "asset": "fx"
+   },
+   {
+    "ts": 1791516549.522,
+    "event": "fx_selection",
+    "note": "selected EUR/USD, GBP/USD, USD/JPY, USD/CHF, AUD/USD, EUR/JPY, CHF/JPY, NZD/JPY",
+    "asset": "fx"
+   },
+   {
+    "ts": 1791516551.652,
+    "event": "market_open",
+    "note": "FX hours Sun 17:00 - Fri 17:00 America/New_York",
+    "asset": "fx"
+   },
+   {
+    "ts": 1791516552.668,
+    "event": "escalation",
+    "sym": "EUR/USD",
+    "reason": "confidence 0.500 < 0.6",
+    "note": "no new entries; flattened if held; queued for deep review",
+    "asset": "fx"
+   },
+   {
+    "ts": 1791516552.668,
+    "event": "escalation",
+    "sym": "GBP/USD",
+    "reason": "confidence 0.500 < 0.6",
+    "note": "no new entries; flattened if held; queued for deep review",
+    "asset": "fx"
+   },
+   {
+    "ts": 1791516552.668,
+    "event": "escalation",
+    "sym": "USD/JPY",
+    "reason": "confidence 0.500 < 0.6",
+    "note": "no new entries; flattened if held; queued for deep review",
+    "asset": "fx"
+   },
+   {
+    "ts": 1791516552.668,
+    "event": "escalation",
+    "sym": "USD/CHF",
+    "reason": "confidence 0.500 < 0.6",
+    "note": "no new entries; flattened if held; queued for deep review",
+    "asset": "fx"
+   },
+   {
+    "ts": 1791516552.668,
+    "event": "escalation",
+    "sym": "AUD/USD",
+    "reason": "confidence 0.500 < 0.6",
+    "note": "no new entries; flattened if held; queued for deep review",
+    "asset": "fx"
+   },
+   {
+    "ts": 1791516552.668,
+    "event": "escalation",
+    "sym": "EUR/JPY",
+    "reason": "confidence 0.500 < 0.6",
+    "note": "no new entries; flattened if held; queued for deep review",
+    "asset": "fx"
+   },
+   {
+    "ts": 1791516552.668,
+    "event": "escalation",
+    "sym": "CHF/JPY",
+    "reason": "confidence 0.500 < 0.6",
+    "note": "no new entries; flattened if held; queued for deep review",
+    "asset": "fx"
+   },
+   {
+    "ts": 1791516552.668,
+    "event": "escalation",
+    "sym": "NZD/JPY",
+    "reason": "confidence 0.500 < 0.6",
+    "note": "no new entries; flattened if held; queued for deep review",
+    "asset": "fx"
+   }
+  ],
+  "equity_series": [
+   [
+    1791516552.668,
+    10000.0
+   ],
+   [
+    1791516612.799,
+    10000.0
+   ],
+   [
+    1791516702.648,
+    10000.0
+   ],
+   [
+    1791516762.816,
+    10000.0
+   ],
+   [
+    1791516853.373,
+    10000.0
+   ],
+   [
+    1791516943.085,
+    10000.0
+   ],
+   [
+    1791517032.692,
+    10000.0
+   ],
+   [
+    1791517092.886,
+    10000.0
+   ],
+   [
+    1791517153.591,
+    10000.0
+   ],
+   [
+    1791517242.801,
+    10000.0
+   ],
+   [
+    1791517332.757,
+    10000.0
+   ],
+   [
+    1791517392.801,
+    10000.0
+   ],
+   [
+    1791517453.471,
+    10000.0
+   ],
+   [
+    1791517542.763,
+    10000.0
+   ],
+   [
+    1791517633.004,
+    10000.0
+   ],
+   [
+    1791517722.666,
+    10000.0
+   ],
+   [
+    1791517782.799,
+    10000.0
+   ],
+   [
+    1791517842.867,
+    10000.0
+   ],
+   [
+    1791517932.819,
+    10000.0
+   ],
+   [
+    1791518022.628,
+    10000.0
+   ],
+   [
+    1791518082.742,
+    10000.0
+   ],
+   [
+    1791518142.767,
+    10000.0
+   ],
+   [
+    1791518202.906,
+    10000.0
+   ],
+   [
+    1791518292.705,
+    10000.0
+   ],
+   [
+    1791518353.581,
+    10000.0
+   ],
+   [
+    1791518442.895,
+    10000.0
+   ],
+   [
+    1791518532.772,
+    10000.0
+   ],
+   [
+    1791518622.683,
+    10000.0
+   ],
+   [
+    1791518682.753,
+    10000.0
+   ],
+   [
+    1791518772.717,
+    10000.0
+   ],
+   [
+    1791518832.777,
+    10000.0
+   ],
+   [
+    1791518922.755,
+    10000.0
+   ],
+   [
+    1791518982.758,
+    10000.0
+   ],
+   [
+    1791519072.906,
+    10000.0
+   ],
+   [
+    1791519162.959,
+    10000.0
+   ],
+   [
+    1791519253.482,
+    10000.0
+   ],
+   [
+    1791519342.678,
+    10000.0
+   ],
+   [
+    1791519432.74,
+    10000.0
+   ],
+   [
+    1791519522.893,
+    10000.0
+   ],
+   [
+    1791519612.807,
+    10000.0
+   ],
+   [
+    1791519702.919,
+    10000.0
+   ],
+   [
+    1791519792.627,
+    10000.0
+   ],
+   [
+    1791519853.39,
+    10000.0
+   ],
+   [
+    1791519942.697,
+    10000.0
+   ],
+   [
+    1791520002.794,
+    10000.0
+   ],
+   [
+    1791520092.704,
+    10000.0
+   ],
+   [
+    1791520153.459,
+    10000.0
+   ],
+   [
+    1791520242.686,
+    10000.0
+   ],
+   [
+    1791520302.709,
+    10000.0
+   ],
+   [
+    1791520362.872,
+    10000.0
+   ],
+   [
+    1791520453.47,
+    10000.0
+   ],
+   [
+    1791520542.686,
+    10000.0
+   ],
+   [
+    1791520602.857,
+    10000.0
+   ],
+   [
+    1791520692.7,
+    10000.0
+   ],
+   [
+    1791520753.465,
+    10000.0
+   ],
+   [
+    1791520842.692,
+    10000.0
+   ],
+   [
+    1791520902.814,
+    10000.0
+   ],
+   [
+    1791520962.83,
+    10000.0
+   ]
+  ]
+ },
+ "desk": {
+  "available": true,
+  "ledger_rows": 5,
+  "ledger_graded": 0,
+  "ledger_hits": 0,
+  "ledger_avg_alpha": null,
+  "ledger_recent": [
+   {
+    "date": "2026-10-08",
+    "ticker": "CRGY",
+    "rating": "3",
+    "ref_date": "2026-10-08",
+    "ref_price": "13.01",
+    "bench_ref": "773.93",
+    "flags": "EARNINGS-CHANGE",
+    "catalyst_type": "M&A + equity offering",
+    "sector": "Energy",
+    "setup": "M&A-dilution",
+    "horizon": "20",
+    "settle_date": "2026-11-05",
+    "settled_close": "",
+    "settled_return": "",
+    "bench_return": "",
+    "alpha": "",
+    "hit": ""
+   },
+   {
+    "date": "2026-10-08",
+    "ticker": "HAE",
+    "rating": "4",
+    "ref_date": "2026-10-08",
+    "ref_price": "119.47",
+    "bench_ref": "773.93",
+    "flags": "EARNINGS-CHANGE",
+    "catalyst_type": "customer contract expansion",
+    "sector": "Health Care",
+    "setup": "contract-upgrade breakout",
+    "horizon": "20",
+    "settle_date": "2026-11-05",
+    "settled_close": "",
+    "settled_return": "",
+    "bench_return": "",
+    "alpha": "",
+    "hit": ""
+   },
+   {
+    "date": "2026-10-08",
+    "ticker": "BKD",
+    "rating": "3",
+    "ref_date": "2026-10-08",
+    "ref_price": "10.89",
+    "bench_ref": "773.93",
+    "flags": "DILUTION",
+    "catalyst_type": "monthly operating data",
+    "sector": "Health Care",
+    "setup": "operating-data, downtrend",
+    "horizon": "20",
+    "settle_date": "2026-11-05",
+    "settled_close": "",
+    "settled_return": "",
+    "bench_return": "",
+    "alpha": "",
+    "hit": ""
+   },
+   {
+    "date": "2026-10-08",
+    "ticker": "CALX",
+    "rating": "3",
+    "ref_date": "2026-10-08",
+    "ref_price": "36.08",
+    "bench_ref": "773.93",
+    "flags": "",
+    "catalyst_type": "buyback",
+    "sector": "Consumer Discretionary",
+    "setup": "buyback, below 52w-high",
+    "horizon": "20",
+    "settle_date": "2026-11-05",
+    "settled_close": "",
+    "settled_return": "",
+    "bench_return": "",
+    "alpha": "",
+    "hit": ""
+   },
+   {
+    "date": "2026-10-08",
+    "ticker": "SMCI",
+    "rating": "3",
+    "ref_date": "2026-10-08",
+    "ref_price": "42.77",
+    "bench_ref": "773.93",
+    "flags": "",
+    "catalyst_type": "governance + unverified regulatory headline",
+    "sector": "Technology",
+    "setup": "growth with cash burn",
+    "horizon": "20",
+    "settle_date": "2026-11-05",
+    "settled_close": "",
+    "settled_return": "",
+    "bench_return": "",
+    "alpha": "",
+    "hit": ""
+   }
+  ],
+  "tickets": 1,
+  "tickets_today_issued": 1,
+  "tickets_today_withheld": 0,
+  "latest_tickets": [
+   "2026-10-08.json"
+  ],
+  "reports": 1,
+  "latest_report": "2026-10-08.md",
+  "portfolio_file": "paper_portfolio.json",
+  "portfolio_equity": 100000.0,
+  "portfolio_cash": 100000.0,
+  "portfolio_start": 100000.0,
+  "portfolio_positions": 0,
+  "roles": [
+   {
+    "role": "Scout",
+    "status": "active",
+    "file": "scores.json",
+    "mtime": 1791516402.272847,
+    "headline": "BKD (Health Care) \u00b7 8-K 2.02,7.01,9.01 \u00b7 4 outlets \u00b7 gap -5.1%",
+    "count": 21,
+    "unit": "scored",
+    "extra": {}
+   },
+   {
+    "role": "Tape",
+    "status": "active",
+    "file": "2026-10-08.md",
+    "mtime": 1791516607.116847,
+    "headline": "CRGY: Tape (https://query1.finance.yahoo.com/v8/finance/chart/CRGY, through 2026-10-08): close 13.01, trend mixed (SMA20 13.61, SMA50 13.19), 20d -9.7%, ATR14 0.4895 (+3.8%), volume ratio 2.43, 20d ra",
+    "count": 5,
+    "unit": "tapes read",
+    "extra": {}
+   },
+   {
+    "role": "Fundamentals",
+    "status": "active",
+    "file": "2026-10-08.md",
+    "mtime": 1791516607.116847,
+    "headline": "CRGY: Fundamentals (https://data.sec.gov/api/xbrl/companyfacts/CIK0001866175.json, latest quarter 2026-06-30 filed 2026-08-03): revenue TTM $4.31B (+24.3% y/y), latest Q $1.39B (+55.3% y/y), op margin",
+    "count": 5,
+    "unit": "filings read",
+    "extra": {}
+   },
+   {
+    "role": "Catalyst",
+    "status": "active",
+    "file": "2026-10-08.md",
+    "mtime": 1791516607.116847,
+    "headline": "CRGY: 8-K filed 2026-10-08T07:08:23-04:00: items 1.01, 2.02, 7.01, 8.01, 9.01 \u2014 https://www.sec.gov/Archives/edgar/data/1866175/000162828026065385/0001628280-26-065385-index.htm",
+    "count": 15,
+    "unit": "catalysts",
+    "extra": {}
+   },
+   {
+    "role": "Bull",
+    "status": "active",
+    "file": "2026-10-08.md",
+    "mtime": 1791516607.116847,
+    "headline": "CRGY: Bull: The company knows these assets: it owns minerals under them and operates next door. It calls the deal accretive to CFFO, FCF and NAV and identifies $140M of synergies. A 7.9% holder (KKR a",
+    "count": 7,
+    "unit": "bull points",
+    "extra": {}
+   },
+   {
+    "role": "Bear",
+    "status": "active",
+    "file": "2026-10-08.md",
+    "mtime": 1791516607.116847,
+    "headline": "CRGY: Bear 1: The $1B offering is roughly 24% of the current market cap (estimate). Until pricing settles, the stock tends to trade down toward the deal price. It is already -9.7% over 20 days and -2.",
+    "count": 17,
+    "unit": "bear points",
+    "extra": {}
+   },
+   {
+    "role": "Risk",
+    "status": "active",
+    "file": "2026-10-08.json",
+    "mtime": 1791516607.1128469,
+    "headline": "cleared 1 ticket(s) through preflight",
+    "count": 1,
+    "unit": "cleared",
+    "extra": {
+     "positions": 0
+    }
+   },
+   {
+    "role": "PM",
+    "status": "active",
+    "file": "2026-10-08.json",
+    "mtime": 1791516607.1128469,
+    "headline": "HAE x41 lim 119.24 \u00b7 draft: after-hours, re-quote + preflight required at execute",
+    "count": 1,
+    "unit": "tickets",
+    "extra": {
+     "equity": 100000.0
+    }
+   }
+  ],
+  "events": [
+   {
+    "ts": 1791516607.116847,
+    "event": "desk_file",
+    "file": "ledger.csv",
+    "headline": "date,ticker,rating,ref_date,ref_price,bench_ref,flags,catalyst_type,sector,setup,horizon,settle_date,settled_close,settled_return,bench_return,alpha,hit"
+   },
+   {
+    "ts": 1791516607.116847,
+    "event": "desk_file",
+    "file": "watchlist.json",
+    "headline": "keys: updated, holdings, shortlist, ledger_open"
+   },
+   {
+    "ts": 1791516607.116847,
+    "event": "desk_file",
+    "file": "patterns.md",
+    "headline": "Patterns"
+   },
+   {
+    "ts": 1791516607.116847,
+    "event": "desk_file",
+    "file": "2026-10-08.md",
+    "headline": "Desk report 2026-10-08"
+   },
+   {
+    "ts": 1791516607.1128469,
+    "event": "desk_file",
+    "file": "2026-10-08.json",
+    "headline": ""
+   },
+   {
+    "ts": 1791516606.828847,
+    "event": "desk_file",
+    "file": "CLAUDE.md",
+    "headline": "Desk rules (adapted from the guide; paper only)"
+   },
+   {
+    "ts": 1791516606.828847,
+    "event": "desk_file",
+    "file": "README.md",
+    "headline": "research-desk (paper only)"
+   },
+   {
+    "ts": 1791516596.844847,
+    "event": "desk_file",
+    "file": "judgment.json",
+    "headline": ""
+   },
+   {
+    "ts": 1791516581.820847,
+    "event": "desk_file",
+    "file": "paper_portfolio.json",
+    "headline": "PAPER portfolio. Nothing here is a real position."
+   },
+   {
+    "ts": 1791516448.712847,
+    "event": "desk_file",
+    "file": "meta.json",
+    "headline": "keys: run_started, clock, after_hours_label, stale, settled, candidates"
+   },
+   {
+    "ts": 1791516448.712847,
+    "event": "desk_file",
+    "file": "judgment.template.json",
+    "headline": "keys: author, written_at, market_note, candidates"
+   },
+   {
+    "ts": 1791516448.512847,
+    "event": "desk_file",
+    "file": "catalyst.json",
+    "headline": ""
+   },
+   {
+    "ts": 1791516448.3528469,
+    "event": "desk_file",
+    "file": "fundamentals.json",
+    "headline": ""
+   },
+   {
+    "ts": 1791516448.292847,
+    "event": "desk_file",
+    "file": "tape.json",
+    "headline": "keys: yesterday, close, volume, avg_volume_20d, volume_ratio, gap"
+   },
+   {
+    "ts": 1791516448.0008469,
+    "event": "desk_file",
+    "file": "catalyst.json",
+    "headline": ""
+   },
+   {
+    "ts": 1791516447.808847,
+    "event": "desk_file",
+    "file": "fundamentals.json",
+    "headline": ""
+   },
+   {
+    "ts": 1791516447.7608469,
+    "event": "desk_file",
+    "file": "tape.json",
+    "headline": "keys: yesterday, close, volume, avg_volume_20d, volume_ratio, gap"
+   },
+   {
+    "ts": 1791516447.472847,
+    "event": "desk_file",
+    "file": "catalyst.json",
+    "headline": ""
+   },
+   {
+    "ts": 1791516447.320847,
+    "event": "desk_file",
+    "file": "fundamentals.json",
+    "headline": ""
+   },
+   {
+    "ts": 1791516447.2808468,
+    "event": "desk_file",
+    "file": "tape.json",
+    "headline": "keys: yesterday, close, volume, avg_volume_20d, volume_ratio, gap"
+   },
+   {
+    "ts": 1791516446.9848468,
+    "event": "desk_file",
+    "file": "catalyst.json",
+    "headline": ""
+   },
+   {
+    "ts": 1791516446.904847,
+    "event": "desk_file",
+    "file": "fundamentals.json",
+    "headline": ""
+   },
+   {
+    "ts": 1791516446.864847,
+    "event": "desk_file",
+    "file": "tape.json",
+    "headline": "keys: yesterday, close, volume, avg_volume_20d, volume_ratio, gap"
+   },
+   {
+    "ts": 1791516446.572847,
+    "event": "desk_file",
+    "file": "catalyst.json",
+    "headline": ""
+   },
+   {
+    "ts": 1791516446.288847,
+    "event": "desk_file",
+    "file": "fundamentals.json",
+    "headline": ""
+   }
+  ]
+ },
+ "snapshot": {
+  "taken": "Oct 8, 2026 9:43 PM Phoenix time",
+  "note": "not live \u00b7 paper trading only"
+ }
+}

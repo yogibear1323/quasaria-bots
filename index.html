@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quasaria Trading Floor · Meet the Bots (paper trading only)</title>
+<meta name="description" content="24 little robots, three desks, one hard-coded risk layer. A paper-trading playground: no real money.">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%97%88%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="gridfloor" aria-hidden="true"><div class="grid"></div></div>
+
+<nav id="nav">
+  <a class="brand" href="#top"><span class="logo">◈</span> QUASARIA<span class="thin">//FLOOR</span></a>
+  <div class="links">
+    <a href="#how">How it works</a><a href="#bots">Meet the bots</a><a href="#risk">Risk layer</a><a href="#score">Scoreboard</a>
+  </div>
+  <a class="portal-link btn portal sm" href="./portal/">⟁ Bot Portal</a>
+  <span class="paper-chip">PAPER ONLY</span>
+</nav>
+
+<header id="top" class="hero">
+  <div class="hero-text">
+    <p class="kicker glitch" data-text="SYSTEM ONLINE · 24 BOTS AT THEIR DESKS">SYSTEM ONLINE · 24 BOTS AT THEIR DESKS</p>
+    <h1>Welcome to the <span class="neon-c">Quasaria</span> <span class="neon-m">Trading&nbsp;Floor</span></h1>
+    <p class="lede">A neon back office where <b>24 little robots</b> watch crypto, forex and US stocks around the clock: scoring setups, arguing bull vs bear and filing paper tickets, all behind a risk layer they <i>can't</i> talk their way past.</p>
+    <div class="paper-banner"><span class="blink">●</span> PAPER TRADING ONLY. Simulated fills on public market data. No real money, no exchange keys, no wallets, no broker.</div>
+    <div class="cta">
+      <a class="portal-link btn portal" href="./portal/"><span class="ring"></span>⟁ Enter the Bot Portal</a>
+      <a class="btn primary" href="#bots">Meet the bots ↓</a>
+      <a class="btn ghost" href="#score">See the honest scoreboard</a>
+    </div>
+  </div>
+  <div class="hero-stage" aria-label="Three robots trading at their desks">
+    <div class="holo-chart"><svg viewBox="0 0 300 90" preserveAspectRatio="none"><polyline id="spark" fill="none" stroke="url(#sg)" stroke-width="2.5"/><defs><linearGradient id="sg" x1="0" x2="1"><stop offset="0" stop-color="#22e6ff"/><stop offset="1" stop-color="#ff3df2"/></linearGradient></defs></svg><span>DEMO SQUIGGLE · NOT REAL DATA</span></div>
+    <div class="hero-bots" id="hero-bots"></div>
+  </div>
+</header>
+
+<section class="counters reveal">
+  <div class="counter"><b data-count="24">0</b><span>bots on the floor</span></div>
+  <div class="counter"><b data-count="3">0</b><span>desks: crypto · FX · stocks</span></div>
+  <div class="counter"><b data-count="120000" data-prefix="$">$0</b><span>total <u>paper</u> equity</span></div>
+  <div class="counter"><b data-count="0" data-prefix="$">$0</b><span>real money at risk</span></div>
+</section>
+
+<section id="how" class="section">
+  <h2 class="reveal"><span class="idx">01</span> How a bot makes a call</h2>
+  <p class="sub reveal">Every crypto and FX bot runs the same loop. The model part only <i>suggests</i>; code owns the gate, the size and the limits.</p>
+  <ol class="pipeline">
+    <li class="reveal"><i>📡</i><h3>State engine</h3><p>Polls public order books and trades, builds a compact snapshot. Causal clock: unclosed bars are never used, and anything from the future raises <code>LookaheadError</code>.</p></li>
+    <li class="reveal"><i>🧠</i><h3>Scorer</h3><p>Emits a typed decision schema: <code>regime · direction · confidence · toxic_flow · setup_quality · risk_state</code>. Default is a local, deterministic stats scorer.</p></li>
+    <li class="reveal"><i>🚦</i><h3>Gate</h3><p>Fires only if <b>setup_quality ≥ 2</b>, <b>confidence &gt; 0.80</b> and <b>risk_state = safe</b>. Confidence &lt; 0.60 or a crisis regime means no entries and flatten.</p></li>
+    <li class="reveal"><i>⚖️</i><h3>Sizing</h3><p>Fractional Kelly after costs, hard-capped at <b>quarter Kelly</b>, divided by stop distance, then clipped by the risk layer.</p></li>
+    <li class="reveal"><i>🛡️</i><h3>Risk layer</h3><p>Checked before <b>every</b> order. A model can only make it stricter, never looser.</p></li>
+    <li class="reveal"><i>🧾</i><h3>Paper broker</h3><p>Simulated fills against the live public book with fees, spread and slippage. Misses and partials are logged.</p></li>
+    <li class="reveal"><i>🌙</i><h3>Nightly review</h3><p>P&amp;L, hit rate, fees and <b>Brier calibration</b>. It proposes new parameters, but they are never auto-applied.</p></li>
+  </ol>
+</section>
+
+<section id="bots" class="section">
+  <h2 class="reveal"><span class="idx">02</span> Meet the bots</h2>
+  <p class="sub reveal">Tap a desk to filter, then hover or tap a bot to flip its card and see what it does.</p>
+  <div class="tabs reveal" role="tablist">
+    <button class="tab active" data-f="all">All 24</button>
+    <button class="tab" data-f="crypto"><span class="dot c"></span>Crypto pit · 8</button>
+    <button class="tab" data-f="fx"><span class="dot a"></span>FX desk · 8</button>
+    <button class="tab" data-f="stock"><span class="dot m"></span>Stock research desk · 8</button>
+  </div>
+
+  <div class="desk-intros">
+    <article class="intro crypto reveal" data-desk="crypto">
+      <h3><span class="dot c"></span>Crypto pit <small>$10,000 paper</small></h3>
+      <p>Eight bots, one per Coinbase pair, reading <b>public Coinbase data</b> (no keys) every 10 s and scoring every 60 s. Spot rules: <b>long only</b>, no shorts. Stops at 1.5× the 24h vol move, targets at 2.5×, max hold 48 h.</p>
+    </article>
+    <article class="intro fx reveal" data-desk="fx">
+      <h3><span class="dot a"></span>FX desk <small>$10,000 paper</small></h3>
+      <p>Eight pairs picked by a ranking of <b>data quality, cost vs volatility</b>, regime clarity and event risk, with correlated pairs de-duplicated. They respect <b>market hours</b> (Sun 17:00 to Fri 17:00 New York), sit out <b>−60/+30 min around high-impact news</b>, and flatten before the Friday close. Leverage ≤ 5× gross.</p>
+    </article>
+    <article class="intro stock reveal" data-desk="stock">
+      <h3><span class="dot m"></span>Stock research desk <small>$100,000 paper</small></h3>
+      <p>Eight role bots that work like a research team: night-shift research, a morning desk, <b>SEC EDGAR</b> filings and XBRL facts, a <b>bull vs bear debate</b>, <b>1 to 5 ratings</b>, and a ledger that grades every call. Tickets are paper and need your <b>typed approval</b> before they fill.</p>
+    </article>
+  </div>
+
+  <div class="botgrid" id="botgrid"></div>
+</section>
+
+<section id="risk" class="section">
+  <h2 class="reveal"><span class="idx">03</span> The risk layer bots can't sweet-talk</h2>
+  <p class="sub reveal">Limits live in code (a frozen dataclass), are covered by tests, and the config loader refuses anything looser.</p>
+  <div class="shields">
+    <div class="shield reveal"><b>15%</b><span>max drawdown → permanent halt</span></div>
+    <div class="shield reveal"><b>3%</b><span>daily loss → halt for the day</span></div>
+    <div class="shield reveal"><b>10%</b><span>max per crypto position · 40% gross</span></div>
+    <div class="shield reveal"><b>¼</b><span>Kelly hard cap on sizing</span></div>
+    <div class="shield reveal"><b>5×</b><span>FX gross leverage ceiling · 1.5× per pair</span></div>
+    <div class="shield reveal kill" id="killbtn" role="button" tabindex="0"><b>KILL</b><span>switch: <code>touch KILL</code> stops both loops (click me)</span></div>
+  </div>
+  <p class="fine reveal">Plus: stale-book and wide-spread rejections, a $2,000 max crypto order, risk-reducing orders always allowed, and stock tickets that re-quote and pass a preflight before your approval.</p>
+</section>
+
+<section id="score" class="section">
+  <h2 class="reveal"><span class="idx">04</span> Honest scoreboard</h2>
+  <p class="sub reveal">Cute robots, real numbers. So far the backtests show <b>no edge after costs</b>. The bots run so the results can be watched, not because they're proven.</p>
+  <div class="scores">
+    <div class="score reveal"><label>Crypto backtest · ~145 days · 0.90% US taker fee</label><b class="neg">−4.72%</b><span>Roughly flat (+0.14%) only at 0.10% fees. Stated confidence ~0.77 vs ~0.55 realized; Brier 0.296 (a coin flip scores 0.25).</span></div>
+    <div class="score reveal"><label>FX backtest · out of sample (Jul 2025 → Oct 2026)</label><b class="neg">−10.16%</b><span>Also lost with zero costs. Stated confidence ~0.82 on traded calls vs ~0.40 realized. Calibrated, the gate would never open.</span></div>
+    <div class="score reveal"><label>Stock desk · first run (Oct 8, 2026)</label><b>1 shortlist</b><span>Haemonetics (HAE) rated 4/5; CRGY, BKD, CALX, SMCI rated 3 (watch). One paper ticket, waiting on human approval. Too early to grade.</span></div>
+  </div>
+  <p class="fine reveal">Buy-and-hold on some alts beat the crypto strategy over the same window, but that universe was picked with hindsight.</p>
+</section>
+
+<section id="portal" class="section portal-cta reveal">
+  <div class="vortex" aria-hidden="true"><i></i><i></i><i></i></div>
+  <h2>Ready to watch them work?</h2>
+  <p class="sub">Step through the portal into a snapshot of the back office: 24 desks, real paper positions and P&amp;L as of tonight, speech bubbles when a bot trades, coins on a win and a red flash on a loss.</p>
+  <a class="portal-link btn portal big" href="./portal/"><span class="ring"></span>⟁ Enter the Bot Portal</a>
+  <p class="fine">Portal: <code id="portal-url">./portal/</code> (a frozen snapshot of the paper trading floor · not live · paper trading only)</p>
+</section>
+
+<footer>
+  <div class="paper-banner small">PAPER TRADING ONLY · NOT INVESTMENT ADVICE · NO REAL MONEY · NO KEYS · NO ORDERS ON ANY REAL VENUE</div>
+  <p>Quasaria Trading Floor · paper trading only, not investment advice. Robots drawn in SVG, no robots were harmed.</p>
+</footer>
+
+<div id="toast" class="toast" role="status"></div>
+<script src="app.js"></script>
+</body>
+</html>

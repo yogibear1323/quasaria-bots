@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quasaria Back Office · SNAPSHOT · PAPER TRADING</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="snapshot-banner" style="position:sticky;top:0;z-index:9999;background:linear-gradient(90deg,#ff3df2,#22e6ff);color:#05010f;font:700 14px/1.4 system-ui,sans-serif;text-align:center;padding:8px 12px;letter-spacing:.02em">📸 SNAPSHOT of the paper trading floor taken Oct 8, 2026 9:43 PM Phoenix time · not live · paper trading only</div>
+<canvas id="particles"></canvas>
+<div id="scene">
+  <div class="layer sky" data-depth="0.2">
+    <div class="skyline"></div>
+  </div>
+  <div class="layer floor" data-depth="0.5"><div class="grid"></div></div>
+</div>
+
+<header id="hud">
+  <div class="brand">
+    <div class="logo">◈</div>
+    <div><div class="title">QUASARIA BACK OFFICE</div><div class="subtitle" id="runner">connecting…</div></div>
+  </div>
+  <a class="lp-link" href="../" title="Landing page: meet the bots">◂ Meet the bots</a>
+  <div class="paper">PAPER TRADING<small>no real money · simulated fills</small></div>
+  <div class="stats">
+    <div class="stat"><label>Total paper equity</label><b id="equity">—</b><small id="equity-sub"></small></div>
+    <div class="stat"><label>Day P&amp;L <span class="muted">(UTC day)</span></label><b id="daypnl">—</b><small id="totpnl"></small></div>
+    <div class="stat"><label>Open positions</label><b id="openpos">—</b><small id="fees"></small></div>
+    <div class="stat"><label>Risk state</label><b id="riskstate">—</b><small id="dd"></small></div>
+  </div>
+</header>
+<div id="halt-banner" class="hidden">⛔ TRADING HALTED — <span id="halt-reason"></span></div>
+<div id="ticker"><div class="ticker-label">SNAPSHOT</div><div class="ticker-track"><div id="ticker-inner">waiting for events…</div></div></div>
+
+<main>
+  <div class="holo-strip">
+    <div class="holo h1"><div class="holo-title">BTC REGIME</div><canvas id="spark" width="300" height="54"></canvas></div>
+    <div class="holo h2"><div class="holo-title">RISK LIMITS</div><div id="risklimits"></div></div>
+    <div class="holo h4"><div class="holo-title">CRYPTO LOOP TOTALS</div><div id="loopstats">—</div></div>
+    <div class="holo h3"><div class="holo-title">DESK LEDGER</div><div id="ledgerbox">—</div></div>
+  </div>
+  <section class="zone">
+    <h2><span class="dot cyan"></span>CRYPTO PIT <small>quasaria-trader · Coinbase public data · paper fills</small></h2>
+    <div class="desks" id="crypto-desks"></div>
+  </section>
+  <section class="zone">
+    <h2><span class="dot amber"></span>FX DESK <span id="fx-market" class="mkt">…</span> <small id="fx-sub">quasaria-trader fx</small></h2>
+    <div class="desks" id="fx-desks"></div>
+  </section>
+  <section class="zone">
+    <h2><span class="dot magenta"></span>US STOCK RESEARCH DESK <small id="desk-sub">research-desk</small></h2>
+    <div class="desks" id="stock-desks"></div>
+  </section>
+</main>
+<footer>Frozen snapshot of the paper trading floor, taken Oct 8, 2026 9:43 PM Phoenix time · PAPER TRADING ONLY · nothing here places real orders · <span id="clock"></span></footer>
+<script src="app.js"></script>
+</body>
+</html>
