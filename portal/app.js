@@ -249,7 +249,7 @@ function pickBalanced(evts, n){
   return important.concat(rest);
 }
 
-const VIEWS = {overview:"Overview", floor:"Bot floor", desks:"Desks & positions", events:"Event log", tokenization:"Property Tokenization"};
+const VIEWS = {overview:"Overview", floor:"Bot floor", desks:"Desks & positions", events:"Event log"};
 let evFilter = "all";
 
 function makeMini(id, name, hue, sub, variant){
@@ -423,7 +423,7 @@ async function poll(){
   }
 }
 
-// routing: #/overview, #/floor, #/desks, #/events, #/tokenization (also accepts #tokenization)
+// routing: #/overview, #/floor, #/desks, #/events
 function route(){
   let v = (location.hash||"").replace(/^#\/?/, "").split(/[?&]/)[0] || "overview";
   if (!VIEWS[v]) v = "overview";

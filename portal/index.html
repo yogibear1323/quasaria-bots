@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Quasaria Back Office · SNAPSHOT · PAPER TRADING</title>
-<meta name="description" content="Quasaria back office: a frozen snapshot of the paper-trading floor plus an illustrative property tokenization flow on Stellar testnet. Not real. Not investment advice.">
+<meta name="description" content="Quasaria back office: a frozen snapshot of the paper-trading floor. Paper trading only. Not investment advice.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,8 +16,6 @@
     <a href="#/floor" data-view="floor"><span class="ic">☗</span><span class="lbl">Bot floor</span><em id="nav-bots">24</em></a>
     <a href="#/desks" data-view="desks"><span class="ic">☰</span><span class="lbl">Desks &amp; positions</span></a>
     <a href="#/events" data-view="events"><span class="ic">≣</span><span class="lbl">Event log</span></a>
-    <div class="nav-sep">Concepts</div>
-    <a href="#/tokenization" data-view="tokenization"><span class="ic">⬡</span><span class="lbl">Property Tokenization</span><em class="chip warn-chip">ILLUSTRATIVE</em></a>
   </nav>
   <div class="side-foot">
     <a class="lp-link" href="../">◂ Back to landing page</a>
@@ -45,10 +43,6 @@
     <div class="kpi"><label>Open positions</label><b id="openpos">—</b><small id="fees"></small></div>
     <div class="kpi"><label>Risk state</label><b id="riskstate">—</b><small id="dd"></small></div>
     <div class="kpi"><label>Bot loop totals</label><b id="loopkpi">—</b><small id="loopkpi-sub"></small></div>
-    <a class="kpi kpi-token" href="#/tokenization" title="Open the illustrative Property Tokenization flow">
-      <label>Property tokenization <span class="chip warn-chip">ILLUSTRATIVE</span></label>
-      <b id="kpi-token-main">—</b><small id="kpi-token-sub"></small>
-    </a>
   </div>
 
   <div class="grid g-3">
@@ -96,122 +90,10 @@
     <div class="seg" id="ev-filter" role="group" aria-label="Filter events"><button data-f="all" class="on">All</button><button data-f="crypto">Crypto</button><button data-f="fx">FX</button><button data-f="desk">Stock desk</button></div></div>
     <div class="tbl-wrap"><table class="tbl" id="tbl-events"><thead><tr><th>Time</th><th>Source</th><th>Event</th></tr></thead><tbody></tbody></table></div></div>
 </section>
-
-<!-- ============ PROPERTY TOKENIZATION ============ -->
-<section class="view hidden" id="view-tokenization">
-  <div class="disclaimer" role="note">
-    <b>⚠ Educational / illustrative concept only.</b> No real property, no real tokens and no real issuer exist here. Nothing on this page is an offer, solicitation or investment advice. Every number is an <b>estimate / illustrative</b> or an <b>ASSUMED</b> input. Real tokenized real estate is subject to securities, property, lending and tax law in your jurisdiction. Everything shown targets <b>Stellar testnet</b> concepts only; addresses and hashes are obviously fake placeholders; no wallets or keys are used.
-  </div>
-
-  <div class="tok-hero panel">
-    <div>
-      <h2>From house deed to real estate share token to lending yield</h2>
-      <p>A <b>$500,000</b> example home (<span class="tag-ill">illustrative</span>) is held by an SPV. The SPV's equity is divided into <b>500,000 shares</b>, each represented 1:1 by a Stellar <b>real estate share token</b> (asset code <code>HOUSE1</code>, a made-up code). The property's value is recorded on Stellar testnet, and up to <b>50%</b> of it is put to work in <b>Blend</b> lending pools. <b>The yield comes from lending interest, not from rent and not from the house itself.</b></p>
-      <ul class="pillrow">
-        <li class="pill off">Off-chain: title + appraisal, SPV legal wrapper, mortgage servicer</li>
-        <li class="pill on">On Stellar testnet: share token, Soroban vault, Blend supply, Reflector (SEP-40) pricing</li>
-        <li class="pill wal">Non-custodial wallets: Freighter · LOBSTR · xBull · Scopuly (the app never holds keys)</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="panel">
-    <div class="p-head"><h3>PIPELINE</h3>
-      <div class="ctl"><button id="pl-play" class="btn" aria-pressed="true">❚❚ Pause</button><button id="pl-prev" class="btn" aria-label="Previous step">◂</button><button id="pl-next" class="btn" aria-label="Next step">▸</button></div></div>
-    <div class="pipeline" id="pipeline" role="list">
-      <div class="stage" role="listitem" data-i="0" tabindex="0"><div class="s-no">1</div><div class="s-ic">📜</div><h4>Deed, title &amp; appraisal</h4><p>Legal title review + independent appraisal: <b>$500,000</b></p><span class="loc off">OFF-CHAIN</span></div>
-      <div class="stage" role="listitem" data-i="1" tabindex="0"><div class="s-no">2</div><div class="s-ic">🏛</div><h4>SPV holds the deed</h4><p>Deed sits in an SPV (LLC/trust) with a custodian; equity = <b>500,000 shares</b></p><span class="loc off">OFF-CHAIN</span></div>
-      <div class="stage" role="listitem" data-i="2" tabindex="0"><div class="s-no">3</div><div class="s-ic">⬡</div><h4>Record value &amp; issue shares</h4><p>Value recorded on testnet; <code>HOUSE1</code> regulated asset + Soroban vault</p><span class="loc on">STELLAR TESTNET</span></div>
-      <div class="stage" role="listitem" data-i="3" tabindex="0"><div class="s-no">4</div><div class="s-ic">👛</div><h4>Mint to owner wallet</h4><p>KYC'd owner trusts + is authorized; shares land in a <b>non-custodial</b> wallet</p><span class="loc on">STELLAR TESTNET</span></div>
-      <div class="stage" role="listitem" data-i="4" tabindex="0"><div class="s-no">5</div><div class="s-ic">🏦</div><h4>Lend via Blend</h4><p>Up to <b>50%</b> supplied to a Blend pool; Reflector prices it (incl. XLM)</p><span class="loc on">STELLAR TESTNET</span></div>
-      <div class="stage" role="listitem" data-i="5" tabindex="0"><div class="s-no">6</div><div class="s-ic" id="stage6-ic">💰</div><h4 id="stage6-title">Yield routed</h4><p id="stage6-sub">choose a destination below</p><span class="loc mix" id="stage6-loc">ON + OFF-CHAIN</span></div>
-      <div class="packet" id="packet" aria-hidden="true"></div>
-    </div>
-    <div class="stage-detail" id="stage-detail" aria-live="polite"></div>
-  </div>
-
-  <div class="grid g-2">
-    <div class="panel">
-      <div class="p-head"><h3>$500K WORKED EXAMPLE <span class="chip warn-chip">ESTIMATE · ILLUSTRATIVE</span></h3></div>
-      <div class="form">
-        <div class="f-row"><label for="in-deploy">Share of value lent <span class="muted">(max 50%)</span></label><input id="in-deploy" type="range" min="0" max="50" step="1" value="50"><output id="out-deploy">50%</output></div>
-        <div class="f-row"><label>Interest rate</label>
-          <div class="seg" id="rate-mode" role="group" aria-label="Rate source"><button data-m="assumed" class="on">ASSUMED 3.00%</button><button data-m="live">Blend live rate (manual)</button></div></div>
-        <div class="f-row hidden" id="live-row"><label for="in-live">Live rate you read from Blend testnet</label><input id="in-live" type="number" min="0" max="50" step="0.01" placeholder="e.g. read from the Blend app" ><output>% APR</output></div>
-        <div class="note-live hidden" id="live-note">This static snapshot is <b>not connected to Blend</b>, so it cannot fetch a live rate and does not invent one. Type the supply APR you read yourself; leave it empty to fall back to the assumed 3%. Blend rates are variable (utilization-based).</div>
-        <div class="f-row"><label for="in-freq">Compounding frequency</label>
-          <select id="in-freq"><option value="365">Daily</option><option value="52">Weekly</option><option value="12" selected>Monthly</option><option value="4">Quarterly</option><option value="1">Annually</option></select></div>
-        <div class="f-row"><label for="in-years">Timeframe</label><input id="in-years" type="range" min="1" max="30" step="1" value="10"><output id="out-years">10 yrs</output></div>
-        <div class="f-row"><label for="in-xlm">Reflector XLM/USD price <span class="muted">(placeholder)</span></label><input id="in-xlm" type="number" min="0.01" step="0.01" value="0.25"><output>USD <span class="tag-ill">illustrative, not a quote</span></output></div>
-      </div>
-      <div class="tiles" id="tiles"></div>
-      <div class="chart-wrap"><canvas id="growth" width="620" height="260" role="img" aria-label="Illustrative growth chart of the lent amount over time"></canvas>
-        <div class="legend"><span><i style="background:#4fd1c5"></i>Fully compounded (yield reinvested)</span><span><i style="background:#f6ad55"></i>Harvested (yield paid out, no compounding)</span><span><i style="background:#718096"></i>Principal lent</span></div></div>
-      <p class="fine">Estimates only. Gross interest on the lent amount; excludes Blend/SPV fees, network fees, taxes, borrower defaults, bad debt and rate changes. Rates are variable and can fall to zero or the principal can lose value.</p>
-    </div>
-
-    <div class="panel">
-      <div class="p-head"><h3>YIELD DESTINATION <span class="chip warn-chip">ILLUSTRATIVE</span></h3></div>
-      <p class="lede sm">The homeowner holds the real estate share tokens, so the lending yield is theirs. Pick where the harvested yield goes. It updates the numbers and pipeline stage 6 live.</p>
-      <div class="seg wide" id="dest" role="radiogroup" aria-label="Yield destination">
-        <button role="radio" data-d="mortgage" class="on" aria-checked="true">① Pay down mortgage</button>
-        <button role="radio" data-d="income" aria-checked="false">② Passive income</button>
-        <button role="radio" data-d="bills" aria-checked="false">③ Bills / anything</button>
-        <button role="radio" data-d="custom" aria-checked="false">④ Custom split</button>
-      </div>
-      <div class="split hidden" id="split">
-        <div class="f-row"><label for="in-sp-m">Mortgage</label><input id="in-sp-m" type="range" min="0" max="100" value="50"><output id="out-sp-m">50%</output></div>
-        <div class="f-row"><label for="in-sp-i">Passive income</label><input id="in-sp-i" type="range" min="0" max="100" value="30"><output id="out-sp-i">30%</output></div>
-        <div class="f-row"><label>Bills / spend (rest)</label><div class="splitbar" id="splitbar"></div><output id="out-sp-b">20%</output></div>
-      </div>
-      <div class="dest-out" id="dest-out"></div>
-
-      <details class="assume" open>
-        <summary>ASSUMED mortgage terms (editable, fictional)</summary>
-        <div class="form">
-          <div class="f-row"><label for="in-mbal">Remaining balance</label><input id="in-mbal" type="number" min="1000" step="1000" value="300000"><output>USD</output></div>
-          <div class="f-row"><label for="in-mrate">Mortgage rate</label><input id="in-mrate" type="number" min="0" max="20" step="0.05" value="6.00"><output>% APR</output></div>
-          <div class="f-row"><label for="in-mterm">Remaining term</label><input id="in-mterm" type="number" min="1" max="40" step="1" value="25"><output>years</output></div>
-        </div>
-        <p class="fine">Mortgage servicing, the lender and any extra-principal payments happen off-chain with a real servicer; this demo does not connect to one. Prepayment terms, taxes and escrow are not modeled.</p>
-      </details>
-    </div>
-  </div>
-
-  <div class="grid g-2">
-    <div class="panel">
-      <div class="p-head"><h3>HOW THE SHARE TOKEN WORKS ON STELLAR</h3></div>
-      <div class="steps-text">
-        <div class="acc"><h4>Share register &amp; legal wrapper (off-chain)</h4><p>The SPV's operating agreement says its equity is divided into 500,000 shares and that each share is represented 1:1 by the <code>HOUSE1</code> asset. The share register ties each verified holder to a wallet address. Which record legally governs (the ledger or an off-chain register) depends on the jurisdiction and the documents. Title and appraisal remain off-chain.</p></div>
-        <div class="acc"><h4>Issuer &amp; distribution accounts</h4><p>An <b>issuer account</b> creates the asset; a separate <b>distribution account</b> holds the minted supply and sends it to holders. Holders opt in with a <b>trustline</b> (<code>change_trust</code>). The issuer sets <code>AUTH_REQUIRED</code> (approve each holder first), <code>AUTH_REVOCABLE</code> (freeze/limit) and <code>AUTH_CLAWBACK_ENABLED</code> (recover tokens for legal or compliance reasons; it requires revocable). Because the issuer must keep these powers, it cannot be locked, so it needs multisig and governance.</p></div>
-        <div class="acc"><h4>Compliance: SEP-8, SEP-24 (and SEP-10/12)</h4><p><b>SEP-8 regulated assets</b>: an approval server checks and signs each transfer (holder limits, lock-ups, sanctions screening). <b>SEP-24</b> gives an interactive web flow where an anchor/issuer can run KYC and funding; <b>SEP-12</b> is the KYC data API and <b>SEP-10</b> proves wallet ownership. The asset's <code>stellar.toml</code> (SEP-1) advertises these.</p></div>
-        <div class="acc"><h4>Soroban vault, Blend &amp; Reflector</h4><p>A <b>Soroban vault contract</b> tracks the recorded property value and the share supply, and uses the asset's SEP-41-style token interface (the Stellar Asset Contract). It supplies up to 50% of the value to a <b>Blend</b> pool (a <code>submit</code> call with a supply request) to earn borrower interest, and reads <b>Reflector</b> oracle prices (SEP-40 <code>lastprice</code>) to value positions, including XLM conversion.</p></div>
-        <div class="acc"><h4>Where the yield comes from, and the risks</h4><p><b>Lending interest.</b> Borrowers in the Blend pool pay interest; lenders earn a variable share. Not rent. Risks: smart-contract bugs, oracle errors, borrower liquidation shortfalls / bad debt, liquidity limits on withdrawal, rate swings, regulatory change, and the fact that a house cannot itself be lent: real funds would need to back whatever is supplied.</p></div>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="p-head"><h3>MOCK STELLAR VIEW <span class="chip warn-chip">FAKE · TESTNET CONCEPT</span></h3></div>
-      <div class="seg" id="mock-tabs" role="tablist"><button data-t="asset" class="on" role="tab">Asset</button><button data-t="issuer" role="tab">Issuer flags</button><button data-t="txs" role="tab">Transactions</button><button data-t="toml" role="tab">stellar.toml</button></div>
-      <div class="mock" id="mock"></div>
-      <p class="fine">Mock UI, not a block explorer. Addresses and hashes are placeholders and do not exist on any network.</p>
-    </div>
-  </div>
-
-  <div class="panel">
-    <div class="p-head"><h3>SHARE REGISTER <span class="chip warn-chip">ILLUSTRATIVE</span></h3></div>
-    <div class="tbl-wrap"><table class="tbl" id="tbl-register"><thead><tr><th>Holder</th><th>Wallet (placeholder)</th><th>KYC</th><th>Trustline</th><th class="r">HOUSE1 shares</th><th class="r">% of SPV</th><th>Note</th></tr></thead><tbody>
-      <tr><td>Homeowner (example)</td><td class="mono">GEXAMPLEHOMEOWNER…PLACEHOLDER</td><td><span class="chip ok">verified</span></td><td><span class="chip ok">authorized</span></td><td class="r mono">500,000</td><td class="r mono">100.00%</td><td>Non-custodial wallet (e.g. Freighter / LOBSTR / xBull / Scopuly); app holds no keys</td></tr>
-      <tr class="muted-row"><td>Distribution account</td><td class="mono">GEXAMPLEDISTRIBUTION…PLACEHOLDER</td><td>n/a</td><td><span class="chip ok">authorized</span></td><td class="r mono">0</td><td class="r mono">0.00%</td><td>Holds supply only transiently during minting</td></tr>
-    </tbody></table></div>
-    <p class="fine">If other verified holders were added, yield would be distributed pro rata per share. Of the 500,000 shares, <b>250,000</b> (50%) represent value the vault lends; the other 250,000 are not lent.</p>
-  </div>
-</section>
 </main>
-<footer>Frozen snapshot of the paper trading floor, Oct 8, 2026 9:43 PM Phoenix time · PAPER TRADING ONLY · nothing here places real orders · Property Tokenization is an educational concept: not an offer, not investment advice.</footer>
+<footer>Frozen snapshot of the paper trading floor, Oct 8, 2026 9:43 PM Phoenix time · PAPER TRADING ONLY · nothing here places real orders.</footer>
 </div>
 </div>
 <script src="app.js"></script>
-<script src="tokenization.js"></script>
 </body>
 </html>
