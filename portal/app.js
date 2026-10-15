@@ -54,11 +54,13 @@ function makeDesk(container, id, name, hue, sub, variant){
     <div class="nameplate"><b>${esc(name)}</b> · ${esc(sub)}</div>`;
   container.appendChild(el);
   bots[id] = {el, state:"watching", lastDecTs:null, lastFillTs:null, lastFileMtime:null, until:0, idleFlip: Date.now() + Math.random()*8000};
+  makeMini(id,name,hue,sub,variant);
   return bots[id];
 }
 
 function setPose(b, pose){
   if (b.state === pose) return;
+  if (b.mini){ b.mini.classList.remove("typing","watching","thinking","halted"); b.mini.classList.add(pose); }
   b.el.classList.remove("typing","watching","thinking","halted");
   b.el.classList.add(pose);
   b.state = pose;
@@ -80,15 +82,6 @@ function lossFx(b, amt){
   const d = document.createElement("div"); d.className="lossfx"; d.textContent = fmtSigned(amt);
   b.el.appendChild(d); setTimeout(()=>d.remove(), 1800);
   b.el.classList.remove("flash-red"); void b.el.offsetWidth; b.el.classList.add("flash-red");
-}
-
-function initDesks(){
-  const cd = document.getElementById("crypto-desks");
-  Object.keys(CRYPTO_HUES).forEach((s,i)=>makeDesk(cd, "c:"+s, s+"-bot", CRYPTO_HUES[s], s+"-USD", i));
-  const fd = document.getElementById("fx-desks");
-  FX_PAIRS.forEach((pr,i)=>makeDesk(fd, "f:"+pr, pr, FX_HUES[pr], "spot FX · paper", i+5));
-  const sd = document.getElementById("stock-desks");
-  Object.keys(ROLE_HUES).forEach((r,i)=>makeDesk(sd, "d:"+r, r, ROLE_HUES[r], ROLE_DESC[r], i+3));
 }
 
 function renderCryptoBot(bot, c){
@@ -175,68 +168,6 @@ function renderDeskBot(role, desk, halted){
   busyIdle(b, now);
 }
 
-function renderHeader(data){
-  const c = data.crypto, f = data.fx || {available:false}, d = data.desk;
-  const fxOn = f.available;
-  const deskEq = d && d.available ? d.portfolio_equity : null;
-  const total = (c.equity ?? 0) + (fxOn ? f.equity ?? 0 : 0) + (deskEq ?? 0);
-  document.getElementById("equity").textContent = fmtUsd(total);
-  document.getElementById("equity-sub").textContent = `crypto ${fmtUsd(c.equity,0)}` + (fxOn ? ` · fx ${fmtUsd(f.equity,0)}` : "") + (deskEq!=null ? ` · stocks ${fmtUsd(deskEq,0)}` : " · stocks: no book yet");
-  const day = (c.day_pnl||0) + (fxOn ? f.day_pnl||0 : 0);
-  const dp = document.getElementById("daypnl"); dp.textContent = fmtSigned(day); dp.className = cls(day);
-  const stockPnl = (deskEq!=null && d.portfolio_start!=null) ? deskEq - d.portfolio_start : null;
-  const totPnl = (c.total_pnl||0) + (fxOn ? f.total_pnl||0 : 0) + (stockPnl||0);
-  document.getElementById("totpnl").innerHTML = `since start <span class="${cls(totPnl)}">${fmtSigned(totPnl)}</span> · day = crypto ${fmtSigned(c.day_pnl)}` + (fxOn ? ` + fx ${fmtSigned(f.day_pnl)}` : "");
-  const open = (c.open_positions||0) + (fxOn ? f.open_positions||0 : 0) + (d && d.available ? d.portfolio_positions||0 : 0);
-  document.getElementById("openpos").textContent = open;
-  document.getElementById("fees").textContent = `crypto ${c.open_positions||0}` + (fxOn ? ` · fx ${f.open_positions||0}` : "") + ` · stocks ${d.available ? d.portfolio_positions||0 : 0}` + ` · crypto fees ${fmtUsd(c.fees_paid)}`;
-  const anyHalt = c.halted || (fxOn && f.halted);
-  const states = [c.risk_state, fxOn ? f.risk_state : null].filter(Boolean);
-  const worst = states.includes("reduce") ? "reduce" : states.includes("near_limit") ? "near_limit" : states[0] || "—";
-  const rs = document.getElementById("riskstate"); rs.textContent = anyHalt ? "HALTED" : worst.toUpperCase(); rs.className = anyHalt ? "neg" : worst==="safe" ? "pos" : "";
-  document.getElementById("dd").textContent = `dd crypto ${c.drawdown!=null ? (c.drawdown*100).toFixed(2)+"%" : "—"}` + (fxOn ? ` · fx ${f.drawdown!=null ? (f.drawdown*100).toFixed(2)+"%" : "—"} · fx lev ${f.leverage!=null ? (+f.leverage).toFixed(2)+"x" : "—"}` : "");
-  const loop = (name, x) => x.running ? `${name} <span class="pos">RUNNING</span>` : `${name} <span class="neg">NOT RUNNING</span>`;
-  document.getElementById("runner").innerHTML = loop("crypto", c) + (fxOn ? " · " + loop("fx", f) : "") + ` · SNAPSHOT ${esc((data.snapshot||{}).taken||"")}`;
-  document.getElementById("halt-banner").classList.toggle("hidden", !anyHalt);
-  const reasons = [];
-  if (c.halted) reasons.push("CRYPTO: " + (c.halt_reason || (c.kill_switch_armed ? "kill switch armed" : "risk halt")));
-  if (fxOn && f.halted) reasons.push("FX: " + (f.halt_reason || "risk halt"));
-  document.getElementById("halt-reason").textContent = reasons.join(" · ");
-  document.getElementById("desk-sub").textContent = d.available ? `research-desk · ${d.ledger_rows} ledger rows · ${d.tickets} tickets · ${d.reports} reports` : "research-desk not built yet: bots on standby";
-  renderFxZoneHeader(f);
-  // holo panels
-  const rl = c.risk_limits || {};
-  const kills = [c.kill_switch_armed ? "KILL" : null, ...(fxOn ? (f.kill_files_armed||[]).filter(k=>k!=="KILL") : [])].filter(Boolean);
-  document.getElementById("risklimits").innerHTML = [["max drawdown", rl.max_drawdown_pct],["max daily loss", rl.max_daily_loss_pct],["max per pos", rl.max_position_pct],["max gross", rl.max_gross_exposure_pct]]
-    .map(([k,v])=>`<div><span>${k}</span><b>${v!=null ? (v*100).toFixed(0)+"%" : "—"}</b></div>`).join("") + `<div><span>kill files</span><b class="${kills.length?"neg":"pos"}">${kills.length?esc(kills.join("+")):"off"}</b></div>`;
-  document.getElementById("ledgerbox").innerHTML = d.available
-    ? `${d.ledger_rows} calls · ${d.ledger_graded} graded · ${d.ledger_hits} hits${d.ledger_avg_alpha!=null?` · avg alpha ${(d.ledger_avg_alpha*100).toFixed(2)}%`:""}<br>tickets today: ${d.tickets_today_issued} issued · ${d.tickets_today_withheld} withheld<br>${d.latest_report ? "report: "+esc(d.latest_report) : "no morning report yet"}`
-    : "research desk offline";
-  const allBots = c.bots.concat(fxOn ? f.bots : []);
-  const tot = k => allBots.reduce((a,b)=>a+(b[k]||0),0);
-  document.querySelector(".h4 .holo-title").textContent = fxOn ? "CRYPTO + FX LOOP TOTALS" : "CRYPTO LOOP TOTALS";
-  document.getElementById("loopstats").innerHTML = [["decisions",tot("decisions")],["fills",tot("fills")],["wins",tot("wins")],["losses",tot("losses")],["blocked",tot("blocks")],["escalations",tot("escalations")]]
-    .map(([k,v])=>`<div><span>${k}</span><b>${v}</b></div>`).join("");
-  // combined equity curve (crypto + fx), aligned on crypto timestamps
-  let series = c.equity_series||[];
-  if (fxOn && (f.equity_series||[]).length){
-    const fs = f.equity_series; let j = 0, last = fs[0][1];
-    series = series.filter(p=>p[0] >= fs[0][0]).map(p=>{ while(j<fs.length && fs[j][0]<=p[0]){ last = fs[j][1]; j++; } return [p[0], p[1]+last]; });
-    if (series.length < 2) series = c.equity_series||[];
-  }
-  drawSpark(series);
-}
-
-function fmtNYChange(ts){ return new Date(ts*1000).toLocaleString([], {weekday:"short", hour:"numeric", minute:"2-digit"}); }
-function renderFxZoneHeader(f){
-  const el = document.getElementById("fx-sub"), badge = document.getElementById("fx-market");
-  if (!f.available){ el.textContent = "fx loop not running: no fx-session log / fx_portfolio.json yet"; badge.textContent = "NO DATA"; badge.className = "mkt"; return; }
-  badge.textContent = f.market_open ? "MARKET OPEN" : "MARKET CLOSED";
-  badge.className = "mkt " + (f.market_open ? "open" : "closed");
-  const nxt = f.market_next_change ? (f.market_hours_open ? `closes ${fmtNYChange(f.market_next_change)} your time = Fri 5 PM NY` : `reopens ${fmtNYChange(f.market_next_change)} your time = Sun 5 PM NY`) : "";
-  el.textContent = `quasaria-trader fx · equity ${fmtUsd(f.equity)} · day ${fmtSigned(f.day_pnl)} · gross ${fmtUsd(f.gross_usd,0)} · lev ${f.leverage!=null?(+f.leverage).toFixed(2)+"x":"—"} · spread paid ${fmtUsd(f.spread_paid_usd)} · financing ${fmtSigned(f.financing_usd)} · ${nxt}`;
-}
-
 const fxPx = (s, v) => v==null ? "—" : v.toFixed(s.includes("JPY") ? 3 : 5);
 function renderFxBot(bot, f){
   const b = bots["f:"+bot.name];
@@ -287,20 +218,6 @@ function renderFxBot(bot, f){
   busyIdle(b, now);
 }
 
-function drawSpark(series){
-  const cv = document.getElementById("spark"), g = cv.getContext("2d");
-  g.clearRect(0,0,cv.width,cv.height);
-  const btc = lastData && lastData.crypto.bots.find(x=>x.name==="BTC");
-  document.querySelector(".h1 .holo-title").textContent = (lastData && lastData.fx && lastData.fx.available ? "CRYPTO+FX EQUITY" : "PAPER EQUITY") + (btc && btc.last_decision ? ` · BTC ${btc.last_decision.regime}` : "");
-  if (series.length < 2){ g.fillStyle="#6f82ad"; g.font="11px monospace"; g.fillText("collecting equity points…", 10, 38); return; }
-  const ys = series.map(p=>p[1]); let lo = Math.min(...ys), hi = Math.max(...ys);
-  if (hi - lo < 1){ lo -= 5; hi += 5; }
-  g.strokeStyle = "#22e6ff"; g.lineWidth = 2; g.shadowColor="#22e6ff"; g.shadowBlur=8; g.beginPath();
-  series.forEach((p,i)=>{ const x = i/(series.length-1)*(cv.width-4)+2, y = cv.height-4 - (p[1]-lo)/(hi-lo)*(cv.height-14); i?g.lineTo(x,y):g.moveTo(x,y); });
-  g.stroke(); g.shadowBlur=0; g.fillStyle="#9fefff"; g.font="10px monospace";
-  g.fillText(fmtUsd(ys[ys.length-1]), 4, 10);
-}
-
 function evText(e, asset){
   const tag = asset === "fx" ? "FX " : "";
   const pxf = v => asset === "fx" ? fxPx(e.sym||"", +v) : fmtPx(+v);
@@ -331,18 +248,160 @@ function pickBalanced(evts, n){
   const rest = rev.filter(e=>e.event==="escalation").slice(0, Math.max(2, n - important.length));
   return important.concat(rest);
 }
-function renderTicker(data){
-  const buckets = [];
-  buckets.push(pickBalanced(data.crypto.events||[], 10).map(e=>{ const t = evText(e,"crypto"); return {ts:e.ts, html:`<span class="${t.k}">[${tfmt(e.ts)}] ${esc(t.txt)}</span>`}; }));
-  if (data.fx && data.fx.available) buckets.push(pickBalanced(data.fx.events||[], 10).map(e=>{ const t = evText(e,"fx"); return {ts:e.ts, html:`<span class="fxev ${t.k}">[${tfmt(e.ts)}] ${esc(t.txt)}</span>`}; }));
-  if (data.desk.available) buckets.push((data.desk.events||[]).slice(0,4).map(e=>({ts:e.ts, html:`<span style="color:#ff9cf6">[${tfmt(e.ts)}] DESK ${esc(e.file)}${e.headline?": "+esc(e.headline.slice(0,70)):""}</span>`})));
-  // round-robin across sources so no single source crowds the ticker
-  buckets.forEach(bk=>bk.sort((a,b)=>b.ts-a.ts));
-  const items = [];
-  for (let i=0; buckets.some(bk=>i<bk.length); i++) buckets.forEach(bk=>{ if (i<bk.length) items.push(bk[i]); });
-  const html = items.slice(0,30).map(i=>i.html).join("") || "<span>no events yet: bots watching the tape</span>";
-  const el = document.getElementById("ticker-inner");
-  if (el.dataset.h !== html){ el.dataset.h = html; el.innerHTML = html; el.style.animationDuration = Math.max(50, items.length*6)+"s"; }
+
+const VIEWS = {overview:"Overview", floor:"Bot floor", desks:"Desks & positions", events:"Event log", tokenization:"Property Tokenization"};
+let evFilter = "all";
+
+function makeMini(id, name, hue, sub, variant){
+  const strip = document.getElementById("floor-strip");
+  const el = document.createElement("a");
+  el.href = "#/floor"; el.className = "mini watching"; el.style.setProperty("--hue", hue);
+  el.innerHTML = robotSVG(hue, variant).replace('class="robot"', 'class="robot-mini"') + `<div class="m-name">${esc(name)}</div><div class="m-pill">…</div>`;
+  strip.appendChild(el);
+  bots[id].mini = el;
+}
+function setMini(id, status, pnl){
+  const b = bots[id]; if (!b || !b.mini) return;
+  b.mini.querySelector(".m-pill").textContent = status;
+  b.mini.title = pnl==null ? "" : "P&L " + fmtSigned(pnl);
+  b.mini.dataset.st = status;
+}
+
+function initDesks(){
+  const cd = document.getElementById("crypto-desks");
+  Object.keys(CRYPTO_HUES).forEach((s,i)=>makeDesk(cd, "c:"+s, s+"-bot", CRYPTO_HUES[s], s+"-USD", i));
+  const fd = document.getElementById("fx-desks");
+  FX_PAIRS.forEach((pr,i)=>makeDesk(fd, "f:"+pr, pr, FX_HUES[pr], "spot FX · paper", i+5));
+  const sd = document.getElementById("stock-desks");
+  Object.keys(ROLE_HUES).forEach((r,i)=>makeDesk(sd, "d:"+r, r, ROLE_HUES[r], ROLE_DESC[r], i+3));
+}
+
+const cryptoStatus = (bot, c) => { const d = bot.last_decision, p = bot.position;
+  if (c.halted) return "HALTED"; if (Math.abs(p.qty) > 1e-12) return "IN POSITION";
+  if (d && d.action === "enter") return "ENTERING"; if (d && d.action === "escalate") return "ESCALATED"; return "WATCHING"; };
+const fxStatus = (bot, f) => { const d = bot.last_decision, p = bot.position;
+  if (f.halted) return "HALTED"; if (!f.market_open) return "MKT CLOSED"; if (Math.abs(p.qty) > 1e-9) return p.qty > 0 ? "LONG" : "SHORT";
+  if (bot.last_block && d && bot.last_block.ts >= d.ts - 1) return "BLOCKED"; if (d && d.action === "enter") return "ENTERING";
+  if (d && d.action === "escalate") return "ESCALATED"; return "WATCHING"; };
+const statusChip = s => { const k = s==="HALTED"||s==="BLOCKED" ? "bad" : (s==="IN POSITION"||s==="LONG"||s==="SHORT"||s==="ENTERING") ? "ok" : (s==="ESCALATED"||s==="MKT CLOSED") ? "warn" : "idle"; return `<span class="chip st-${k}">${esc(s)}</span>`; };
+
+function renderHeader(data){
+  const c = data.crypto, f = data.fx || {available:false}, d = data.desk;
+  const fxOn = f.available;
+  const deskEq = d && d.available ? d.portfolio_equity : null;
+  const total = (c.equity ?? 0) + (fxOn ? f.equity ?? 0 : 0) + (deskEq ?? 0);
+  document.getElementById("equity").textContent = fmtUsd(total);
+  document.getElementById("equity-sub").textContent = `crypto ${fmtUsd(c.equity,0)}` + (fxOn ? ` · fx ${fmtUsd(f.equity,0)}` : "") + (deskEq!=null ? ` · stocks ${fmtUsd(deskEq,0)}` : " · stocks: no book yet");
+  const day = (c.day_pnl||0) + (fxOn ? f.day_pnl||0 : 0);
+  const dp = document.getElementById("daypnl"); dp.textContent = fmtSigned(day); dp.className = cls(day);
+  const stockPnl = (deskEq!=null && d.portfolio_start!=null) ? deskEq - d.portfolio_start : null;
+  const totPnl = (c.total_pnl||0) + (fxOn ? f.total_pnl||0 : 0) + (stockPnl||0);
+  document.getElementById("totpnl").innerHTML = `since start <span class="${cls(totPnl)}">${fmtSigned(totPnl)}</span>`;
+  const open = (c.open_positions||0) + (fxOn ? f.open_positions||0 : 0) + (d && d.available ? d.portfolio_positions||0 : 0);
+  document.getElementById("openpos").textContent = open;
+  document.getElementById("fees").textContent = `crypto ${c.open_positions||0}` + (fxOn ? ` · fx ${f.open_positions||0}` : "") + ` · stocks ${d.available ? d.portfolio_positions||0 : 0}`;
+  const anyHalt = c.halted || (fxOn && f.halted);
+  const states = [c.risk_state, fxOn ? f.risk_state : null].filter(Boolean);
+  const worst = states.includes("reduce") ? "reduce" : states.includes("near_limit") ? "near_limit" : states[0] || "—";
+  const rs = document.getElementById("riskstate"); rs.textContent = anyHalt ? "HALTED" : worst.toUpperCase(); rs.className = anyHalt ? "neg" : worst==="safe" ? "pos" : "";
+  document.getElementById("dd").textContent = `dd crypto ${c.drawdown!=null ? (c.drawdown*100).toFixed(2)+"%" : "—"}` + (fxOn ? ` · fx ${f.drawdown!=null ? (f.drawdown*100).toFixed(2)+"%" : "—"}` : "");
+  const loop = (name, x) => x.running ? `${name} <span class="pos">RUNNING</span>` : `${name} <span class="neg">NOT RUNNING</span>`;
+  document.getElementById("runner").innerHTML = loop("crypto", c) + (fxOn ? " · " + loop("fx", f) : "") + ` · snapshot ${esc((data.snapshot||{}).taken||"")}`;
+  document.getElementById("halt-banner").classList.toggle("hidden", !anyHalt);
+  const reasons = [];
+  if (c.halted) reasons.push("CRYPTO: " + (c.halt_reason || (c.kill_switch_armed ? "kill switch armed" : "risk halt")));
+  if (fxOn && f.halted) reasons.push("FX: " + (f.halt_reason || "risk halt"));
+  document.getElementById("halt-reason").textContent = reasons.join(" · ");
+  const sub = d.available ? `research-desk · ${d.ledger_rows} ledger rows · ${d.tickets} tickets · ${d.reports} reports` : "research-desk not built yet: bots on standby";
+  document.getElementById("desk-sub").textContent = sub; document.getElementById("desk-sub2").textContent = sub;
+  renderFxZoneHeader(f);
+  const rl = c.risk_limits || {};
+  const kills = [c.kill_switch_armed ? "KILL" : null, ...(fxOn ? (f.kill_files_armed||[]).filter(k=>k!=="KILL") : [])].filter(Boolean);
+  document.getElementById("risklimits").innerHTML = [["max drawdown", rl.max_drawdown_pct],["max daily loss", rl.max_daily_loss_pct],["max per position", rl.max_position_pct],["max gross exposure", rl.max_gross_exposure_pct]]
+    .map(([k,v])=>`<div><span>${k}</span><b>${v!=null ? (v*100).toFixed(0)+"%" : "—"}</b></div>`).join("") + `<div><span>kill switch files</span><b class="${kills.length?"neg":"pos"}">${kills.length?esc(kills.join("+")):"off"}</b></div>`;
+  document.getElementById("ledgerbox").innerHTML = d.available
+    ? [["calls logged", d.ledger_rows],["graded", d.ledger_graded],["hits", d.ledger_hits],["avg alpha", d.ledger_avg_alpha!=null ? (d.ledger_avg_alpha*100).toFixed(2)+"%" : "n/a yet"],["tickets issued today", d.tickets_today_issued],["tickets withheld", d.tickets_today_withheld],["latest report", d.latest_report ? esc(d.latest_report) : "none"]].map(([k,v])=>`<div><span>${k}</span><b>${v}</b></div>`).join("")
+    : "<div><span>research desk offline</span><b>—</b></div>";
+  const allBots = c.bots.concat(fxOn ? f.bots : []);
+  const tot = k => allBots.reduce((a,b)=>a+(b[k]||0),0);
+  document.getElementById("loopkpi").textContent = tot("decisions").toLocaleString();
+  document.getElementById("loopkpi-sub").textContent = `decisions · ${tot("fills")} fills · ${tot("blocks")} blocked · ${tot("escalations")} escalated`;
+  // desk summary table
+  const rows = [];
+  const pct = v => v!=null ? (v*100).toFixed(2)+"%" : "—";
+  rows.push(`<tr><td>Crypto pit (8)</td><td>${c.running?'<span class="chip st-ok">RUNNING</span>':'<span class="chip st-bad">STOPPED</span>'}</td><td class="r mono">${fmtUsd(c.equity)}</td><td class="r mono ${cls(c.day_pnl)}">${fmtSigned(c.day_pnl)}</td><td class="r mono ${cls(c.total_pnl)}">${fmtSigned(c.total_pnl)}</td><td class="r mono">${c.open_positions||0}</td><td class="r mono">${pct(c.drawdown)}</td><td>${esc((c.risk_state||"—").toUpperCase())}</td></tr>`);
+  if (fxOn) rows.push(`<tr><td>FX desk (8)</td><td>${f.market_open?'<span class="chip st-ok">MARKET OPEN</span>':'<span class="chip st-warn">MARKET CLOSED</span>'}</td><td class="r mono">${fmtUsd(f.equity)}</td><td class="r mono ${cls(f.day_pnl)}">${fmtSigned(f.day_pnl)}</td><td class="r mono ${cls(f.total_pnl)}">${fmtSigned(f.total_pnl)}</td><td class="r mono">${f.open_positions||0}</td><td class="r mono">${pct(f.drawdown)}</td><td>${esc((f.risk_state||"—").toUpperCase())}</td></tr>`);
+  if (d.available) rows.push(`<tr><td>Stock research desk (8 roles)</td><td><span class="chip st-ok">ACTIVE</span></td><td class="r mono">${fmtUsd(d.portfolio_equity)}</td><td class="r mono">—</td><td class="r mono ${cls(stockPnl)}">${stockPnl!=null?fmtSigned(stockPnl):"—"}</td><td class="r mono">${d.portfolio_positions||0}</td><td class="r mono">—</td><td>paper tickets need approval</td></tr>`);
+  document.querySelector("#tbl-desks tbody").innerHTML = rows.join("");
+  // equity chart
+  let series = c.equity_series||[];
+  if (fxOn && (f.equity_series||[]).length){
+    const fs = f.equity_series; let j = 0, last = fs[0][1];
+    series = series.filter(p=>p[0] >= fs[0][0]).map(p=>{ while(j<fs.length && fs[j][0]<=p[0]){ last = fs[j][1]; j++; } return [p[0], p[1]+last]; });
+    if (series.length < 2) series = c.equity_series||[];
+  }
+  drawSpark(series);
+}
+
+function renderTables(data){
+  const c = data.crypto, f = data.fx || {available:false}, d = data.desk;
+  const dec = x => x ? `${esc(x.action)} · ${esc(x.direction)}` : "—";
+  const cf = x => x && x.confidence!=null ? (x.confidence*100).toFixed(0)+"%" : "—";
+  document.querySelector("#tbl-crypto tbody").innerHTML = c.bots.map(b=>{ const p=b.position, h=Math.abs(p.qty)>1e-12;
+    return `<tr><td><b>${esc(b.name)}</b>-USD</td><td>${statusChip(cryptoStatus(b,c))}</td><td class="r mono">${fmtPx(b.mid)}</td><td class="r mono">${b.spread_bps!=null?(+b.spread_bps).toFixed(2):"—"}</td><td>${dec(b.last_decision)}</td><td>${esc(b.last_decision?b.last_decision.regime||"":"")}</td><td class="r mono">${cf(b.last_decision)}</td><td class="mono">${h ? p.qty.toPrecision(4)+" @ "+fmtPx(p.avg_px) : "flat"}</td><td class="r mono ${cls(b.pnl)}">${fmtSigned(b.pnl)}</td><td class="r mono">${b.wins}/${b.losses}</td><td class="r mono">${b.decisions}</td></tr>`; }).join("");
+  document.querySelector("#tbl-fx tbody").innerHTML = f.available ? f.bots.map(b=>{ const p=b.position, h=Math.abs(p.qty)>1e-9;
+    return `<tr><td><b>${esc(b.name)}</b></td><td>${statusChip(fxStatus(b,f))}</td><td class="r mono">${fxPx(b.name,b.mid)}</td><td class="r mono">${b.spread_bps!=null?(+b.spread_bps).toFixed(2):"—"}</td><td>${dec(b.last_decision)}</td><td>${esc(b.last_decision?b.last_decision.regime||"":"")}</td><td class="r mono">${cf(b.last_decision)}</td><td class="mono">${h ? Math.round(p.qty).toLocaleString()+"u @ "+fxPx(b.name,p.avg_px) : "flat"}</td><td class="r mono ${cls(b.pnl)}">${fmtSigned(b.pnl)}</td><td class="r mono ${cls(b.financing)}">${fmtSigned(b.financing)}</td><td class="r mono">${b.blocks||0}</td></tr>`; }).join("") : `<tr><td colspan="11" class="muted">fx loop has no data in this snapshot</td></tr>`;
+  document.querySelector("#tbl-roles tbody").innerHTML = (d.roles||[]).map(r=>`<tr><td><b>${esc(r.role)}</b></td><td>${esc(ROLE_DESC[r.role]||"")}</td><td>${statusChip(r.status==="active"?"ACTIVE":"WATCHING")}</td><td class="mono">${r.file?esc(r.file.split("/").pop()):"—"}</td><td>${r.mtime?ago(r.mtime):"—"}</td><td class="r mono">${r.count!=null?r.count+" "+esc(r.unit||""):"—"}</td><td class="clip">${r.headline?esc(r.headline):"—"}</td></tr>`).join("");
+  document.querySelector("#tbl-ledger tbody").innerHTML = (d.ledger_recent||[]).map(r=>`<tr><td class="mono">${esc(r.date)}</td><td><b>${esc(r.ticker)}</b></td><td class="r mono">${esc(r.rating)}/5</td><td>${esc(r.setup)}</td><td>${esc(r.sector)}</td><td class="r mono">${esc(r.ref_price)}</td><td class="mono">${esc(r.settle_date)}</td><td>${r.hit===""?'<span class="chip st-idle">pending</span>':esc(r.hit)}</td></tr>`).join("") || `<tr><td colspan="8" class="muted">no rows</td></tr>`;
+  // minis
+  c.bots.forEach(b=>setMini("c:"+b.name, cryptoStatus(b,c), b.pnl));
+  if (f.available) f.bots.forEach(b=>setMini("f:"+b.name, fxStatus(b,f), b.pnl));
+  (d.roles||[]).forEach(r=>setMini("d:"+r.role, d.available ? (r.status==="active"?"ACTIVE":"WATCHING") : "OFFLINE", null));
+}
+
+function allEvents(data){
+  const out = [];
+  (data.crypto.events||[]).forEach(e=>{ const t = evText(e,"crypto"); out.push({ts:e.ts, src:"crypto", k:t.k, txt:t.txt}); });
+  if (data.fx && data.fx.available) (data.fx.events||[]).forEach(e=>{ const t = evText(e,"fx"); out.push({ts:e.ts, src:"fx", k:t.k, txt:t.txt}); });
+  if (data.desk.available) (data.desk.events||[]).forEach(e=>out.push({ts:e.ts, src:"desk", k:"", txt:`filed ${e.file||"file"}`}));
+  return out.sort((a,b)=>b.ts-a.ts);
+}
+function renderEvents(data){
+  const evs = allEvents(data);
+  const row = e => `<tr><td class="mono nowrap">${tfmt(e.ts)}</td><td><span class="chip src-${e.src}">${e.src.toUpperCase()}</span></td><td class="${e.k}">${esc(e.txt)}</td></tr>`;
+  // keep the overview list varied: fills/blocks first, routine escalations capped
+  const imp = evs.filter(e=>!/escalated/.test(e.txt)).slice(0,8), esc2 = evs.filter(e=>/escalated/.test(e.txt)).slice(0,4);
+  document.querySelector("#tbl-recent tbody").innerHTML = imp.concat(esc2).sort((a,b)=>b.ts-a.ts).map(row).join("") || `<tr><td colspan="3" class="muted">no events yet</td></tr>`;
+  const shown = evs.filter(e=>evFilter==="all"||e.src===evFilter).slice(0,200);
+  document.querySelector("#tbl-events tbody").innerHTML = shown.map(row).join("") || `<tr><td colspan="3" class="muted">no events</td></tr>`;
+}
+document.getElementById("ev-filter").addEventListener("click", ev=>{ const b = ev.target.closest("button"); if(!b) return;
+  evFilter = b.dataset.f; document.querySelectorAll("#ev-filter button").forEach(x=>x.classList.toggle("on", x===b)); if (lastData) renderEvents(lastData); });
+
+function fmtNYChange(ts){ return new Date(ts*1000).toLocaleString([], {weekday:"short", hour:"numeric", minute:"2-digit"}); }
+function renderFxZoneHeader(f){
+  const el = document.getElementById("fx-sub"), badge = document.getElementById("fx-market");
+  if (!f.available){ el.textContent = "fx loop not running in this snapshot"; badge.textContent = "NO DATA"; badge.className = "chip"; return; }
+  badge.textContent = f.market_open ? "MARKET OPEN" : "MARKET CLOSED";
+  badge.className = "chip " + (f.market_open ? "st-ok" : "st-warn");
+  el.textContent = `equity ${fmtUsd(f.equity)} · day ${fmtSigned(f.day_pnl)} · gross ${fmtUsd(f.gross_usd,0)} · lev ${f.leverage!=null?(+f.leverage).toFixed(2)+"x":"—"} · spread paid ${fmtUsd(f.spread_paid_usd)} · financing ${fmtSigned(f.financing_usd)}`;
+}
+
+function drawSpark(series){
+  const cv = document.getElementById("spark"), g = cv.getContext("2d"), W = cv.width, H = cv.height;
+  g.clearRect(0,0,W,H);
+  const btc = lastData && lastData.crypto.bots.find(x=>x.name==="BTC");
+  document.getElementById("spark-title").textContent = "PAPER EQUITY" + (btc && btc.last_decision ? ` · BTC regime: ${btc.last_decision.regime}` : "");
+  g.strokeStyle = "#2b3646"; g.lineWidth = 1; g.fillStyle = "#7f8da3"; g.font = "11px ui-monospace,monospace";
+  for (let i=0;i<4;i++){ const y = 14 + i*(H-34)/3; g.beginPath(); g.moveTo(0,y); g.lineTo(W,y); g.stroke(); }
+  if (series.length < 2){ g.fillText("collecting equity points…", 10, H/2); return; }
+  const ys = series.map(p=>p[1]); let lo = Math.min(...ys), hi = Math.max(...ys);
+  if (hi - lo < 1){ lo -= 5; hi += 5; }
+  g.strokeStyle = "#4fd1c5"; g.lineWidth = 2; g.beginPath();
+  series.forEach((p,i)=>{ const x = i/(series.length-1)*(W-60)+4, y = H-20 - (p[1]-lo)/(hi-lo)*(H-34); i?g.lineTo(x,y):g.moveTo(x,y); });
+  g.stroke(); g.fillStyle = "#a9b6c9";
+  g.fillText(fmtUsd(hi,0), W-54, 22); g.fillText(fmtUsd(lo,0), W-54, H-24);
+  g.fillText(fmtUsd(ys[ys.length-1]) + " latest", 8, H-4);
 }
 
 async function poll(){
@@ -356,27 +415,34 @@ async function poll(){
     if (data.fx && data.fx.available) data.fx.bots.forEach(b=>renderFxBot(b, data.fx));
     else FX_PAIRS.forEach(pr=>{ const b = bots["f:"+pr]; b.el.classList.add("offline"); b.el.querySelector(".mon-body").innerHTML = `<div class="mon-head"><span>${pr}</span><span class="status-pill">OFFLINE</span></div><div class="mon-reason">fx loop has no data yet</div>`; });
     data.desk.roles.forEach(r=>renderDeskBot(r, data.desk, false));
-    renderTicker(data);
+    renderTables(data); renderEvents(data);
     firstLoad = false;
   }catch(e){
     document.getElementById("runner").innerHTML = `<span class="neg">data feed error: ${esc(e.message)}</span>`;
+    console.warn("state.json load failed", e);
   }
 }
 
-// lightweight animation tick between polls so idle bots keep changing
+// routing: #/overview, #/floor, #/desks, #/events, #/tokenization (also accepts #tokenization)
+function route(){
+  let v = (location.hash||"").replace(/^#\/?/, "").split(/[?&]/)[0] || "overview";
+  if (!VIEWS[v]) v = "overview";
+  Object.keys(VIEWS).forEach(k=>document.getElementById("view-"+k).classList.toggle("hidden", k!==v));
+  document.querySelectorAll("#nav a").forEach(a=>{ const on = a.dataset.view===v; a.classList.toggle("active", on); if(on) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
+  document.getElementById("view-title").textContent = VIEWS[v];
+  document.title = `${VIEWS[v]} · Quasaria Back Office · SNAPSHOT · PAPER TRADING`;
+  document.body.dataset.view = v;
+  scrollTo(0,0);
+  if (v==="overview" && lastData) drawSpark(lastEquitySeries());
+  document.dispatchEvent(new CustomEvent("viewchange",{detail:v}));
+}
+function lastEquitySeries(){ const c = lastData.crypto; return c.equity_series||[]; }
+addEventListener("hashchange", route);
+
 setInterval(()=>{ if(!lastData) return; const now = Date.now(); Object.values(bots).forEach(b=>{ if(b.state!=="halted" && now>b.until && !b.nextPose) busyIdle(b, now); }); }, 1000);
 setInterval(()=>{ document.getElementById("clock").textContent = new Date().toLocaleString(); }, 1000);
-
-// particles
-(function(){
-  const cv = document.getElementById("particles"), g = cv.getContext("2d"); let W,H,P=[];
-  function rs(){ W=cv.width=innerWidth; H=cv.height=innerHeight; P = Array.from({length: Math.floor(W*H/14000)}, ()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+.3,vy:-(Math.random()*.35+.05),vx:(Math.random()-.5)*.15,h:Math.random()<.5?"34,230,255":"255,61,242",a:Math.random()*.6+.2})); }
-  addEventListener("resize", rs); rs();
-  (function f(){ g.clearRect(0,0,W,H); for(const p of P){ p.x+=p.vx; p.y+=p.vy; if(p.y<-5){p.y=H+5;p.x=Math.random()*W;} g.beginPath(); g.fillStyle=`rgba(${p.h},${p.a})`; g.shadowColor=`rgba(${p.h},1)`; g.shadowBlur=6; g.arc(p.x,p.y,p.r,0,7); g.fill(); } requestAnimationFrame(f); })();
-})();
-// parallax
-addEventListener("mousemove", e=>{ const cx = e.clientX/innerWidth-.5, cy = e.clientY/innerHeight-.5;
-  document.querySelectorAll(".layer").forEach(l=>{ const d = +l.dataset.depth; l.style.transform = `translate(${-cx*40*d}px,${-cy*24*d}px)`; }); });
+document.getElementById("clock").textContent = new Date().toLocaleString();
 
 initDesks();
+route();
 poll(); setInterval(poll, POLL_MS);
